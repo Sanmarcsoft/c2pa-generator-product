@@ -13,6 +13,7 @@ This application provides an interactive, retro-gaming-inspired interface to hel
 - **Document Management** - Upload, review, annotate, and download certification documents
 - **Progress Tracking** - Visual dashboard showing certification progress
 - **6-Phase Workflow** - Structured approach from introduction to certification maintenance
+- **GitHub RAG Integration** - Index and search your GitHub repositories for code-aware assistance
 
 ## Technology Stack
 
@@ -66,6 +67,8 @@ The application automatically deploys to Google Cloud when pushed to the main br
 - **[API Documentation](docs/API.md)** - API endpoint reference
 - **[User Guide](docs/USER_GUIDE.md)** - End-user documentation
 - **[Deployment Guide](docs/DEPLOYMENT.md)** - Deployment instructions
+- **[GitHub RAG Integration](docs/GITHUB_RAG.md)** - Index and search GitHub repositories
+- **[GitHub Token Setup](docs/GITHUB_TOKEN_SETUP.md)** - Quick guide to configure GitHub authentication
 
 ## Project Structure
 
@@ -106,6 +109,49 @@ DATABASE_URL=sqlite:///data/app.db
 # Google Cloud
 GCP_PROJECT_ID=your-project-id
 ```
+
+## Security - Protecting Your API Keys
+
+**⚠️ Important**: Never commit API keys to git! The application supports three secure methods for managing secrets:
+
+### Option 1: File-Based Secrets (Recommended for Development)
+
+```bash
+# 1. Create secrets file
+cp backend/config/secrets.example.json backend/config/secrets.json
+
+# 2. Set secure permissions
+chmod 600 backend/config/secrets.json
+
+# 3. Edit with your actual keys
+# backend/config/secrets.json:
+{
+  "OPENAI_API_KEY": "sk-your-actual-key-here"
+}
+
+# 4. Mount in docker-compose.yml (uncomment):
+# volumes:
+#   - ./backend/config/secrets.json:/app/config/secrets.json:ro
+```
+
+### Option 2: Docker Secrets (Recommended for Production)
+
+```bash
+# 1. Create secrets directory
+mkdir -p secrets && chmod 700 secrets
+
+# 2. Store key in file
+echo "sk-your-actual-key" > secrets/openai_api_key.txt
+chmod 600 secrets/openai_api_key.txt
+
+# 3. Enable in docker-compose.yml (see commented sections)
+```
+
+### Option 3: Environment Variables (Development Only)
+
+Currently using `.env` file - convenient but least secure. See [SECURITY.md](SECURITY.md) for complete security guidelines.
+
+**Secret Priority**: Docker Secrets → File-Based Secrets → Environment Variables
 
 ## Contributing
 
