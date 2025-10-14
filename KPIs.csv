@@ -1,0 +1,19 @@
+Category,KPI,Target / Goal / Metric Type
+User Acquisition & Reach,Monthly Active Users (MAU),Target: 1M in 12 months (Aspirational)
+User Acquisition & Reach,Downloads (iOS & Android),Track
+User Acquisition & Reach,User Acquisition Cost (CAC),Calculate & Optimize
+User Engagement & Stickiness,Daily Active Users (DAU) / MAU Ratio,Track & Improve
+User Engagement & Stickiness,Average Session Length,Track & Improve
+User Engagement & Stickiness,Reporting Frequency per Active User,Track & Improve
+User Engagement & Stickiness,Community Engagement (Discord activity),Monitor & Foster
+User Retention,30-Day Retention Rate,Target: 40%
+User Retention,Churn Rate,"Monitor baseline 15%, Target: <10%"
+Monetization,Conversion Rate (Free to Premium Tiers),Track & Optimize (Targets: 1.5% Y1, 3% Y2, 4% Y3)
+Monetization,Average Revenue Per Paying User (ARPPU),Track & Optimize (Est: $7/mo)
+Monetization,Customer Lifetime Value (LTV),Calculate & Optimize (Ensure LTV > CAC)
+App Quality & Performance,App Store Rating (iOS & Android),Target: 4.5+
+App Quality & Performance,Crash Rate / ANR Rate,Minimize
+Market Validation & Credibility,Number of Verified Reports / Data Quality Score,Develop & Track (Future)
+Market Validation & Credibility,Press Mentions / Media Coverage,Track
+Market Validation & Credibility,Partnership Inquiries (Research, Media),Track
+Market Validation & Credibility,Qualitative User Feedback Sentiment,Monitor & Improve

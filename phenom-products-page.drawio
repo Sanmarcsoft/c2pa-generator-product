@@ -1,0 +1,153 @@
+<mxfile host="drawio.matthewstevens.org" modified="2025-03-16T15:30:00.000Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36" version="22.1.18" etag="8j9wPnFS2dC1Aw0jHvOa" type="device">
+  <diagram name="Phenom Products Overview" id="HtVPf_RpaMHL7R82yz3l">
+    <mxGraphModel dx="3105" dy="1486" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" style="locked=1;" parent="0" />
+        <mxCell id="lYxEztQFuUf-SZ8Mdh8F-1" value="" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#808080;fillColor=#000000;strokeWidth=4;" vertex="1" parent="1">
+          <mxGeometry x="-490" y="100" width="1020" height="580" as="geometry" />
+        </mxCell>
+        <mxCell id="VLQ56Zi2dIuav5skoTrc-2" value="Chart Objects" style="" parent="0" />
+        <UserObject label="PHENOM LLC" link="data:page/id,FYQOKUv9saEi2ekxj1eN" id="VLQ56Zi2dIuav5skoTrc-5">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;fontStyle=1;fontSize=18;strokeWidth=4;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="-60" y="140" width="160" height="60" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Revenue Streams: Software Products" link="data:page/id,rR30z2jGueo1I74trfyR" id="VLQ56Zi2dIuav5skoTrc-6">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontStyle=1;fontSize=16;strokeWidth=3;fontColor=#FFFFFF;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="-140" y="250" width="320" height="50" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Phenom Free&#xa;&#xa;Ad-supported Version&#xa;Price: Free&#xa;Basic features" link="data:page/id,ZegVBP1Mj31ExeqgBXmB" id="VLQ56Zi2dIuav5skoTrc-7">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontStyle=0;fontSize=14;strokeWidth=3;align=center;verticalAlign=middle;spacingLeft=5;spacingRight=5;spacing=5;fontColor=#FFFFFF;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="-390" y="350" width="180" height="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Phenom Pheastmode&#xa;&#xa;Standard Subscription&#xa;Price: $4.11/month&#xa;Ad-free experience" link="data:page/id,DjFq4JcjLwqfv5wtooIH" id="VLQ56Zi2dIuav5skoTrc-8">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontStyle=0;fontSize=14;strokeWidth=3;align=center;verticalAlign=middle;spacingLeft=5;spacingRight=5;spacing=5;fontColor=#FFFFFF;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="-140" y="350" width="180" height="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Phenom Apex&#xa;&#xa;Premium Subscription&#xa;Price: $7.11/month&#xa;Premium content" link="data:page/id,ZegVBP1Mj31ExeqgBXmB" id="VLQ56Zi2dIuav5skoTrc-9">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontStyle=0;fontSize=14;strokeWidth=3;align=center;verticalAlign=middle;spacingLeft=5;spacingRight=5;spacing=5;fontColor=#FFFFFF;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="110" y="350" width="180" height="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Revenue Streams: Physical Products" link="data:page/id,7T6PHy65-GRRwcmaSdq_" id="VLQ56Zi2dIuav5skoTrc-10">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontStyle=1;fontSize=16;strokeWidth=3;fontColor=#FFFFFF;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="310" y="250" width="320" height="50" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Phenom SecureID Pro&#xa;&#xa;Team & Service Person&#xa;Price: $9.11/month&#xa;Verified identity status&#xa;Enhanced privacy" link="data:page/id,HtVPf_RpaMHL7R82yz3l" id="VLQ56Zi2dIuav5skoTrc-11">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontStyle=1;fontSize=14;strokeWidth=3;align=center;verticalAlign=middle;spacingLeft=5;spacingRight=5;spacing=5;fontColor=#FFFFFF;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="110" y="500" width="180" height="120" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="Drop-ship Sensor Packages&#xa;&#xa;Detection equipment&#xa;Measurement tools&#xa;Field investigation kits" link="data:page/id,liJQL4V09ln4M0IYCLkd" id="VLQ56Zi2dIuav5skoTrc-12">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontStyle=0;fontSize=14;strokeWidth=3;align=center;verticalAlign=middle;spacingLeft=5;spacingRight=5;spacing=5;fontColor=#FFFFFF;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="310" y="350" width="180" height="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="VLQ56Zi2dIuav5skoTrc-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;strokeWidth=4;" parent="VLQ56Zi2dIuav5skoTrc-2" source="VLQ56Zi2dIuav5skoTrc-5" target="VLQ56Zi2dIuav5skoTrc-6" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="20" y="220" />
+              <mxPoint x="20" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VLQ56Zi2dIuav5skoTrc-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;strokeWidth=4;" parent="VLQ56Zi2dIuav5skoTrc-2" source="VLQ56Zi2dIuav5skoTrc-5" target="VLQ56Zi2dIuav5skoTrc-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="20" y="220" />
+              <mxPoint x="470" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VLQ56Zi2dIuav5skoTrc-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;strokeWidth=4;" parent="VLQ56Zi2dIuav5skoTrc-2" source="VLQ56Zi2dIuav5skoTrc-6" target="VLQ56Zi2dIuav5skoTrc-7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-300" y="275" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VLQ56Zi2dIuav5skoTrc-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;strokeWidth=4;" parent="VLQ56Zi2dIuav5skoTrc-2" source="VLQ56Zi2dIuav5skoTrc-6" target="VLQ56Zi2dIuav5skoTrc-8" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="20" y="320" />
+              <mxPoint x="-50" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VLQ56Zi2dIuav5skoTrc-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;strokeWidth=4;" parent="VLQ56Zi2dIuav5skoTrc-2" source="VLQ56Zi2dIuav5skoTrc-6" target="VLQ56Zi2dIuav5skoTrc-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="20" y="320" />
+              <mxPoint x="200" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VLQ56Zi2dIuav5skoTrc-18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;strokeWidth=4;dashed=1;" parent="VLQ56Zi2dIuav5skoTrc-2" source="VLQ56Zi2dIuav5skoTrc-9" target="VLQ56Zi2dIuav5skoTrc-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="470" />
+              <mxPoint x="200" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VLQ56Zi2dIuav5skoTrc-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;strokeWidth=4;" parent="VLQ56Zi2dIuav5skoTrc-2" source="VLQ56Zi2dIuav5skoTrc-10" target="VLQ56Zi2dIuav5skoTrc-12" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="320" />
+              <mxPoint x="400" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <UserObject label="Drop-ship Branded Merchandise&#xa;&#xa;Apparel&#xa;Accessories&#xa;Print-on-demand products" link="data:page/id,liJQL4V09ln4M0IYCLkd" id="VLQ56Zi2dIuav5skoTrc-20">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontStyle=0;fontSize=14;strokeWidth=3;align=center;verticalAlign=middle;spacingLeft=5;spacingRight=5;spacing=5;fontColor=#FFFFFF;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="540" y="350" width="180" height="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="VLQ56Zi2dIuav5skoTrc-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;strokeWidth=4;" parent="VLQ56Zi2dIuav5skoTrc-2" source="VLQ56Zi2dIuav5skoTrc-10" target="VLQ56Zi2dIuav5skoTrc-20" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="320" />
+              <mxPoint x="630" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <UserObject label="App Broadcasting&#xa;&#xa;Streaming Service&#xa;Enterprise licensing&#xa;Media distribution rights" link="data:page/id,liJQL4V09ln4M0IYCLkd" id="VLQ56Zi2dIuav5skoTrc-22">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontStyle=0;fontSize=14;strokeWidth=3;align=center;verticalAlign=middle;spacingLeft=5;spacingRight=5;spacing=5;fontColor=#FFFFFF;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="-390" y="500" width="180" height="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="VLQ56Zi2dIuav5skoTrc-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;strokeWidth=4;" parent="VLQ56Zi2dIuav5skoTrc-2" source="VLQ56Zi2dIuav5skoTrc-7" target="VLQ56Zi2dIuav5skoTrc-22" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-300" y="470" />
+              <mxPoint x="-300" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <UserObject label="API Subscriptions&#xa;&#xa;Developer access&#xa;Data analytics&#xa;Enterprise integration" link="data:page/id,liJQL4V09ln4M0IYCLkd" id="VLQ56Zi2dIuav5skoTrc-24">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontStyle=0;fontSize=14;strokeWidth=3;align=center;verticalAlign=middle;spacingLeft=5;spacingRight=5;spacing=5;fontColor=#FFFFFF;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="-140" y="500" width="180" height="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="VLQ56Zi2dIuav5skoTrc-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#CC0000;strokeWidth=4;" parent="VLQ56Zi2dIuav5skoTrc-2" source="VLQ56Zi2dIuav5skoTrc-8" target="VLQ56Zi2dIuav5skoTrc-24" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-50" y="470" />
+              <mxPoint x="-50" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <UserObject label="Special tier for verified professionals" link="data:page/id,liJQL4V09ln4M0IYCLkd" id="VLQ56Zi2dIuav5skoTrc-26">
+          <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#647687;strokeColor=#314354;fontStyle=2;fontSize=14;strokeWidth=2;align=center;verticalAlign=middle;spacingLeft=5;spacingRight=5;spacing=5;fontColor=#FFFFFF;" parent="VLQ56Zi2dIuav5skoTrc-2" vertex="1">
+            <mxGeometry x="110" y="470" width="180" height="30" as="geometry" />
+          </mxCell>
+        </UserObject>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

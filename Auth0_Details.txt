@@ -1,0 +1,3 @@
+Domain is : dev-zzmiper2k61b1xzv.eu.auth0.com
+Client ID is : 9ZgKdmkyY3euZ9sHdeBYA3uHf2KeNuUK
+client secret is: rwNSCs0M30YdCITG3JYBb518DPxM6lYJvkenfAqkQmJFHPYtT9U07jZKFFwvjJ7i

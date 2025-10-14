@@ -1,0 +1,27 @@
+flowchart TD
+    INFRA[Infrastructure]
+    INFRA --> HOSTING[Hosting Services]
+    INFRA --> BACKEND[Backend Systems]
+    INFRA --> ENVIRONMENTS[Deployment Environments]
+    INFRA --> SECURITY[Security]
+    
+    HOSTING --> CELESTINO[Celestino Enterprises]
+    HOSTING --> SERVERS[Servers]
+    
+    SERVERS --> MAIL[Mail Server]
+    SERVERS --> APP[Application Servers]
+    SERVERS --> DB[Database Servers]
+    
+    APP --> REGIONS[Regions]
+    REGIONS --> PRIMARY[us-east-1 Primary]
+    REGIONS --> BACKUP_REG[us-east-2 Backup]
+    
+    BACKEND --> AMP[amp.sdk Platform - Exclusive]
+    
+    ENVIRONMENTS --> DEV_ENV[Development - Internal]
+    ENVIRONMENTS --> TEST_ENV[Testing - Internal]
+    ENVIRONMENTS --> PROD_ENV[Production - Internal]
+    
+    SECURITY --> AUTH[Authentication]
+    SECURITY --> ENCRYPT[Encryption]
+    SECURITY --> BACKUP[Data Backup]
