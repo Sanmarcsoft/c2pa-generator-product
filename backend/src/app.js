@@ -14,6 +14,9 @@ const chatRoutes = require('./routes/chat');
 const progressRoutes = require('./routes/progress');
 const c2paRoutes = require('./routes/c2pa');
 const githubRoutes = require('./routes/github');
+const settingsRoutes = require('./routes/settings');
+const phase1Routes = require('./routes/phase1');
+const adventureRoutes = require('./routes/adventure');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -58,6 +61,9 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/c2pa', c2paRoutes);
 app.use('/api/github', githubRoutes);
+app.use('/api/settings', settingsRoutes);
+app.use('/api/phase1', phase1Routes);
+app.use('/api/adventure', adventureRoutes);
 
 // Serve static frontend files (for production)
 app.use(express.static(path.join(__dirname, '../public')));

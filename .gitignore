@@ -55,10 +55,19 @@ tmp/
 temp/
 *.tmp
 
-# API Keys and secrets
+# API Keys and secrets - NEVER commit these!
 config/secrets.json
+backend/config/secrets.json
+secrets/
 *.pem
 *.key
+*secret*.csv
+*secret*.gexf
+*_secret_*.png
+step-ca.env
+.env
+.env.*
+!.env.example
 
 # Coverage
 coverage/
@@ -68,3 +77,35 @@ htmlcov/
 
 # System files
 Thumbs.db
+
+# Large media files (not for git repo)
+*.mov
+*.mp4
+*.avi
+*.mkv
+*.zip
+*.epub
+*.pdf
+*.docx
+*.csv
+*.xlsx
+*.webp
+*.jpeg
+*.jpg
+*.png
+*.heic
+*.html
+*.txt
+
+# Exclude large directories
+github_repos/
+Figma_Project_Export/
+C2PA_Example_FIles/
+ANGLE2_PRESO/
+Skywatcher_Videos/
+Dan\ Haug_Farm_Perhaps/
+Engima+ORNL/
+Crop\ circles*/
+Buzzard-Android/
+Buzzard-iOS/
+Etsy/

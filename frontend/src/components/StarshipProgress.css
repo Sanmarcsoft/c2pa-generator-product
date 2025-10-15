@@ -1,0 +1,443 @@
+.starship-progress-container {
+  background: rgba(15, 52, 96, 0.3);
+  border: 3px solid #00ff41;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.starship-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.starship-header h2 {
+  color: #00ff41;
+  margin: 0 0 10px 0;
+  font-size: 28px;
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.7);
+  font-family: 'Courier New', monospace;
+}
+
+.starship-subtitle {
+  color: #b8b8b8;
+  margin: 0;
+  font-size: 16px;
+}
+
+.starship-main {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.starship-canvas {
+  flex: 1;
+  min-width: 500px;
+  position: relative;
+}
+
+.starship-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* SVG Component Animations */
+.ship-component {
+  transition: all 0.3s ease;
+}
+
+.ship-component.completed {
+  opacity: 1;
+  animation: assembleComponent 0.8s ease-out;
+}
+
+@keyframes assembleComponent {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+  60% {
+    transform: scale(1.05) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.ship-component.incomplete {
+  opacity: 0.3;
+}
+
+.ship-component:hover {
+  filter: drop-shadow(0 0 8px rgba(0, 255, 65, 0.8));
+  cursor: pointer;
+}
+
+/* Tooltip Styling */
+.component-tooltip {
+  position: absolute;
+  background: rgba(0, 20, 40, 0.95);
+  border: 2px solid #00ff41;
+  border-radius: 8px;
+  padding: 15px;
+  pointer-events: none;
+  z-index: 1000;
+  min-width: 250px;
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+  animation: tooltipFadeIn 0.2s ease;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tooltip-title {
+  color: #00ff41;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0 0 8px 0;
+  font-family: 'Courier New', monospace;
+}
+
+.tooltip-description {
+  color: #b8b8b8;
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.tooltip-status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+}
+
+.tooltip-status.completed {
+  background: #00ff41;
+  color: #1a1a2e;
+}
+
+.tooltip-status.incomplete {
+  background: rgba(255, 255, 255, 0.1);
+  color: #b8b8b8;
+  border: 1px solid #666;
+}
+
+/* Legend Styling */
+.starship-legend {
+  flex: 0 0 300px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #00ff41;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.legend-title {
+  color: #00ff41;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+}
+
+.legend-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: rgba(15, 52, 96, 0.2);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.legend-item:hover {
+  background: rgba(15, 52, 96, 0.4);
+  transform: translateX(5px);
+}
+
+.legend-item.completed {
+  border-left: 4px solid #00ff41;
+}
+
+.legend-item.incomplete {
+  border-left: 4px solid #666;
+  opacity: 0.6;
+}
+
+.legend-item.current {
+  border: 2px solid #00ccff;
+  box-shadow: 0 0 15px rgba(0, 204, 255, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(0, 204, 255, 0.8);
+  }
+}
+
+.legend-icon {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.legend-details {
+  flex: 1;
+}
+
+.legend-name {
+  color: #e4e4e4;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0 0 4px 0;
+  font-family: 'Courier New', monospace;
+}
+
+.legend-phase {
+  color: #b8b8b8;
+  font-size: 12px;
+  margin: 0;
+}
+
+.legend-status {
+  flex-shrink: 0;
+  font-size: 16px;
+}
+
+/* Progress Stats */
+.progress-stats {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(0, 255, 65, 0.05);
+  border: 2px solid #00ff41;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.progress-percentage {
+  color: #00ff41;
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0 0 5px 0;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+.progress-label {
+  color: #b8b8b8;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Completion Message */
+.completion-message {
+  text-align: center;
+  padding: 30px;
+  margin-top: 20px;
+  background: linear-gradient(135deg, rgba(0, 255, 65, 0.1) 0%, rgba(0, 204, 255, 0.1) 100%);
+  border: 3px solid #00ff41;
+  border-radius: 12px;
+  animation: celebrateComplete 1s ease-out;
+}
+
+@keyframes celebrateComplete {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.completion-icon {
+  font-size: 64px;
+  margin-bottom: 15px;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.completion-title {
+  color: #00ff41;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  text-shadow: 0 0 15px rgba(0, 255, 65, 0.8);
+  font-family: 'Courier New', monospace;
+}
+
+.completion-text {
+  color: #b8b8b8;
+  font-size: 16px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Current Phase Indicator */
+.current-phase-indicator {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(0, 204, 255, 0.1);
+  border: 2px solid #00ccff;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.current-phase-label {
+  color: #00ccff;
+  font-size: 14px;
+  margin: 0 0 5px 0;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+}
+
+.current-phase-name {
+  color: #e4e4e4;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .starship-main {
+    flex-direction: column;
+  }
+
+  .starship-canvas {
+    min-width: 100%;
+  }
+
+  .starship-legend {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .starship-progress-container {
+    padding: 20px;
+  }
+
+  .starship-header h2 {
+    font-size: 24px;
+  }
+
+  .starship-canvas {
+    min-width: 100%;
+  }
+
+  .component-tooltip {
+    min-width: 200px;
+    font-size: 12px;
+  }
+
+  .legend-items {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* Loading State */
+.starship-loading {
+  text-align: center;
+  padding: 60px;
+  color: #00ff41;
+  font-size: 18px;
+  font-family: 'Courier New', monospace;
+}
+
+.starship-loading::after {
+  content: '...';
+  animation: ellipsis 1.5s infinite;
+}
+
+@keyframes ellipsis {
+  0% {
+    content: '.';
+  }
+  33% {
+    content: '..';
+  }
+  66% {
+    content: '...';
+  }
+}
+
+/* Error State */
+.starship-error {
+  text-align: center;
+  padding: 30px;
+  color: #ff4444;
+  background: rgba(255, 68, 68, 0.1);
+  border: 2px solid #ff4444;
+  border-radius: 12px;
+  font-family: 'Courier New', monospace;
+}
+
+.starship-error-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.starship-error-message {
+  font-size: 16px;
+  margin: 0;
+}
