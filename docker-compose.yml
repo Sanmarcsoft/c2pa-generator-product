@@ -8,8 +8,9 @@ services:
       - "${PORT:-8080}:8080"
     volumes:
       # Persistent data storage
-      - ./data:/app/data
-      - ./logs:/app/logs
+      # Using named volumes to avoid macOS path issues
+      - c2pa-data:/app/data
+      - c2pa-logs:/app/logs
       # Development: mount source for hot reload (comment out for production)
       # - ./backend/src:/app/src
     # Docker secrets (recommended for production)
@@ -19,9 +20,16 @@ services:
     environment:
       - NODE_ENV=${NODE_ENV:-development}
       - PORT=${PORT:-8080}
-      # Comment out OPENAI_API_KEY when using Docker secrets or file-based secrets
+      # AI Configuration (priority: Ollama > OpenAI > Fallback)
+      - USE_LOCAL_LLM=${USE_LOCAL_LLM:-false}
+      - OLLAMA_URL=${OLLAMA_URL}
+      - OLLAMA_API_KEY=${OLLAMA_API_KEY}
+      - AI_MODEL=${AI_MODEL:-qwen3-coder:480b-cloud}
+      # OpenWebUI (for chat storage/persistence)
+      - OPENWEBUI_URL=https://openwebui.matthewstevens.org/api
+      - OPENWEBUI_API_KEY=${OPENWEBUI_API_KEY}
+      # OpenAI (alternative)
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - AI_MODEL=${AI_MODEL:-gpt-4}
       - DATABASE_URL=sqlite:///app/data/app.db
       - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:5173}
       - MAX_FILE_SIZE=${MAX_FILE_SIZE:-50000000}
@@ -45,6 +53,20 @@ services:
 #     file: ./secrets/GITHUB_TOKEN
 #   openai_api_key:
 #     file: ./secrets/openai_api_key.txt
+
+volumes:
+  c2pa-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/data
+  c2pa-logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/logs
 
 networks:
   c2pa-network:

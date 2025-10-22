@@ -20,8 +20,21 @@ This application provides an interactive, retro-gaming-inspired interface to hel
 - **Frontend**: React/Vue.js with SVG animations
 - **Backend**: Node.js (Express) or Python (FastAPI)
 - **Database**: SQLite (development) / PostgreSQL (production)
-- **AI**: OpenAI GPT-4 or local LLM
+- **AI**: Ollama (local LLM - qwen3-coder:480b-cloud) or OpenAI GPT-4
+- **Chat Persistence**: OpenWebUI integration
 - **Deployment**: Docker, Google Cloud Platform
+
+## Recent Updates
+
+**🎉 October 2025 - Major Enhancements:**
+- **OpenWebUI Integration** - Chat persistence and session management via OpenWebUI
+- **Ollama AI Provider** - Local LLM support with qwen3-coder:480b-cloud model
+- **Automatic Database Backup & Restore** - Data persistence across container rebuilds
+- **Safe Rebuild Script** - Use `./scripts/rebuild-with-backup.sh` instead of `docker-compose up -d --build`
+- **GitHub Repository Validation** - Strict URL validation with existence checking
+- **Visual Feedback** - Real-time status messages for repository indexing
+
+📚 See [Recent Updates](docs/RECENT_UPDATES.md) for complete details.
 
 ## Quick Start
 
@@ -32,8 +45,11 @@ This application provides an interactive, retro-gaming-inspired interface to hel
 git clone https://github.com/smsmatt/c2pa-generator-product.git
 cd c2pa-generator-product
 
-# Run with Docker Compose
-docker-compose up
+# Run with Docker Compose (first time)
+docker-compose up -d
+
+# For rebuilds, use the safe rebuild script (recommended)
+./scripts/rebuild-with-backup.sh
 
 # The application will auto-detect an available port (8080-8090)
 # Open http://localhost:8080 in your browser
@@ -63,12 +79,25 @@ The application automatically deploys to Google Cloud when pushed to the main br
 
 ## Documentation
 
+### Getting Started
+- **[Recent Updates](docs/RECENT_UPDATES.md)** - Latest features and changes
 - **[Technical Specification](SPEC.md)** - Comprehensive technical documentation
-- **[API Documentation](docs/API.md)** - API endpoint reference
 - **[User Guide](docs/USER_GUIDE.md)** - End-user documentation
+- **[API Documentation](docs/API.md)** - API endpoint reference
+
+### Database & Deployment
+- **[Database Backup & Restore](docs/DATABASE_BACKUP_RESTORE.md)** - Data persistence guide
+- **[Container Rebuild Password Issue](docs/CONTAINER_REBUILD_PASSWORD_ISSUE.md)** - Password reset after rebuilds
 - **[Deployment Guide](docs/DEPLOYMENT.md)** - Deployment instructions
-- **[GitHub RAG Integration](docs/GITHUB_RAG.md)** - Index and search GitHub repositories
-- **[GitHub Token Setup](docs/GITHUB_TOKEN_SETUP.md)** - Quick guide to configure GitHub authentication
+
+### GitHub Integration
+- **[GitHub Repository Validation](docs/GITHUB_REPO_VALIDATION.md)** - URL validation guide
+- **[GitHub RAG Setup](docs/GITHUB_RAG_SETUP.md)** - Repository indexing for AI assistance
+- **[GitHub Token Setup](docs/GITHUB_TOKEN_SETUP.md)** - Authentication configuration
+
+### Troubleshooting
+- **[Troubleshooting Login](docs/TROUBLESHOOTING_LOGIN.md)** - Login issues
+- **[Admin Password Special Characters](docs/ADMIN_PASSWORD_SPECIAL_CHARS.md)** - Password handling
 
 ## Project Structure
 

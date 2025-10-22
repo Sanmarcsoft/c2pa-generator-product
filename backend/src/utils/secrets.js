@@ -107,6 +107,44 @@ function getSecret(secretName) {
 }
 
 /**
+ * Set a secret by writing to file-based secrets
+ * This is used for admin-configurable secrets (API keys, tokens, etc.)
+ */
+function setSecret(secretName, secretValue) {
+  try {
+    const configDir = path.join(__dirname, '../../config');
+    const secretsPath = path.join(configDir, 'secrets.json');
+
+    // Ensure config directory exists
+    if (!fs.existsSync(configDir)) {
+      fs.mkdirSync(configDir, { recursive: true });
+    }
+
+    // Read existing secrets or create new object
+    let secrets = {};
+    if (fs.existsSync(secretsPath)) {
+      try {
+        secrets = JSON.parse(fs.readFileSync(secretsPath, 'utf8'));
+      } catch (e) {
+        logger.warn('Could not parse existing secrets.json, creating new file');
+      }
+    }
+
+    // Update the secret
+    secrets[secretName] = secretValue;
+
+    // Write back to file with secure permissions
+    fs.writeFileSync(secretsPath, JSON.stringify(secrets, null, 2), { mode: 0o600 });
+
+    logger.info(`Secret '${secretName}' has been updated in secrets file`);
+    return true;
+  } catch (error) {
+    logger.error(`Error setting secret '${secretName}':`, error);
+    return false;
+  }
+}
+
+/**
  * Validate that secrets file has correct permissions
  */
 function validateSecretsFile() {
@@ -135,5 +173,6 @@ function validateSecretsFile() {
 
 module.exports = {
   getSecret,
+  setSecret,
   validateSecretsFile
 };

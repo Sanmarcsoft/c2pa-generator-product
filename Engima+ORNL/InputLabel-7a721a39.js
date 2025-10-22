@@ -1,1 +1,0 @@
-import{j as s}from"./app-dea81339.js";function n({value:t,className:e="",children:r,...m}){return s.jsx("label",{...m,className:"block mb-2 text-sm font-medium text-gray-900 dark:text-white "+e,children:t||r})}export{n as I};

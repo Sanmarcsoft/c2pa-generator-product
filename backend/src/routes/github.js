@@ -4,6 +4,8 @@ const { body, param, validationResult } = require('express-validator');
 const githubAuthService = require('../services/githubAuthService');
 const githubRagService = require('../services/githubRagService');
 const logger = require('../utils/logger');
+const requireAuth = require('../middleware/requireAuth');
+const requireAdmin = require('../middleware/requireAdmin');
 
 /**
  * GitHub RAG API Routes
@@ -21,8 +23,11 @@ const checkValidation = (req, res, next) => {
 /**
  * POST /api/github/auth/token
  * Authenticate with GitHub using Personal Access Token
+ * ADMIN ONLY
  */
 router.post('/auth/token',
+  requireAuth,
+  requireAdmin,
   [
     body('token').notEmpty().withMessage('GitHub token is required')
   ],
@@ -146,8 +151,11 @@ router.post('/auth/logout', (req, res) => {
 /**
  * POST /api/github/repos/index
  * Index a GitHub repository for RAG
+ * ADMIN ONLY
  */
 router.post('/repos/index',
+  requireAuth,
+  requireAdmin,
   [
     body('owner').notEmpty().withMessage('Repository owner is required'),
     body('repo').notEmpty().withMessage('Repository name is required'),
@@ -156,11 +164,28 @@ router.post('/repos/index',
   checkValidation,
   async (req, res) => {
     try {
+      // Check if GitHub is authenticated, if not try to authenticate with stored token
       if (!githubAuthService.isAuthenticated()) {
-        return res.status(401).json({
-          success: false,
-          message: 'GitHub authentication required. Please authenticate first.'
-        });
+        const { getSecret } = require('../utils/secrets');
+        const githubToken = getSecret('GITHUB_TOKEN');
+
+        if (!githubToken) {
+          return res.status(401).json({
+            success: false,
+            message: 'GitHub token not configured. Please configure GitHub integration in Admin settings.'
+          });
+        }
+
+        // Try to authenticate with stored token
+        const authResult = await githubAuthService.authenticateWithToken(githubToken);
+        if (!authResult.success) {
+          return res.status(401).json({
+            success: false,
+            message: 'GitHub authentication failed. Please check your token configuration.'
+          });
+        }
+
+        logger.info('GitHub authenticated using stored token');
       }
 
       const { owner, repo, branch } = req.body;
@@ -219,8 +244,11 @@ router.get('/repos', async (req, res) => {
 /**
  * DELETE /api/github/repos/:repoId
  * Delete an indexed repository
+ * ADMIN ONLY
  */
 router.delete('/repos/:repoId',
+  requireAuth,
+  requireAdmin,
   [
     param('repoId').isInt().withMessage('Invalid repository ID')
   ],

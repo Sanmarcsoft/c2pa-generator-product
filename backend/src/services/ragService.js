@@ -197,21 +197,39 @@ function extractRelevantExcerpt(content, keywords, maxLength = 300) {
  */
 async function enhanceWithDocuments(userMessage, baseResponse, options = {}) {
   try {
-    // Extract keywords from user message
-    const keywords = extractKeywords(userMessage);
+    // Extract C2PA-specific keywords from user message
+    const c2paKeywords = extractKeywords(userMessage);
 
-    if (keywords.length === 0) {
+    // Also extract general keywords from the user message for GitHub search
+    // Split by whitespace and filter out common words
+    const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'is', 'are', 'was', 'were', 'show', 'me'];
+    const generalKeywords = userMessage
+      .toLowerCase()
+      .split(/\s+/)
+      .filter(word => word.length > 2 && !stopWords.includes(word));
+
+    // Combine C2PA keywords and general keywords for comprehensive search
+    const allKeywords = [...new Set([...c2paKeywords, ...generalKeywords])];
+
+    logger.info(`RAG Enhancement - C2PA keywords: [${c2paKeywords.join(', ')}], General keywords: [${generalKeywords.join(', ')}]`);
+
+    // If no keywords at all, return base response
+    if (allKeywords.length === 0) {
+      logger.info('RAG Enhancement - No keywords found, returning base response');
       return baseResponse;
     }
 
-    // Search for relevant documents (local)
-    const relevantDocs = await searchDocuments(keywords, 2);
+    // Search for relevant documents (local) - use C2PA keywords
+    const relevantDocs = await searchDocuments(c2paKeywords, 2);
+    logger.info(`RAG Enhancement - Found ${relevantDocs.length} local documents`);
 
-    // Search GitHub repositories if enabled
+    // Search GitHub repositories if enabled - use all keywords
     let githubResults = [];
     if (options.searchGithub !== false) {
       try {
-        githubResults = await githubRagService.searchRepositories(keywords, options.repoFilter, 3);
+        logger.info(`RAG Enhancement - Searching GitHub with keywords: [${allKeywords.join(', ')}]`);
+        githubResults = await githubRagService.searchRepositories(allKeywords, options.repoFilter, 3);
+        logger.info(`RAG Enhancement - Found ${githubResults.length} GitHub results`);
       } catch (error) {
         logger.warn('GitHub search failed:', error.message);
       }

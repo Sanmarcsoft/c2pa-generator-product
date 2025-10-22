@@ -9,14 +9,18 @@ const logger = require('./utils/logger');
 const { initDatabase } = require('./models/database');
 
 // Import routes
+const authRoutes = require('./routes/auth');
 const documentRoutes = require('./routes/documents');
 const chatRoutes = require('./routes/chat');
+const sessionsRoutes = require('./routes/sessions');
 const progressRoutes = require('./routes/progress');
 const c2paRoutes = require('./routes/c2pa');
 const githubRoutes = require('./routes/github');
 const settingsRoutes = require('./routes/settings');
 const phase1Routes = require('./routes/phase1');
 const adventureRoutes = require('./routes/adventure');
+const adminRoutes = require('./routes/admin');
+const openaiCompatRoutes = require('./routes/openai-compat');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -56,14 +60,18 @@ app.get('/health', (req, res) => {
 });
 
 // API Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/chat/sessions', sessionsRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/c2pa', c2paRoutes);
 app.use('/api/github', githubRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/phase1', phase1Routes);
 app.use('/api/adventure', adventureRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/v1', openaiCompatRoutes);
 
 // Serve static frontend files (for production)
 app.use(express.static(path.join(__dirname, '../public')));
@@ -107,9 +115,20 @@ let server;
 // Initialize database and start server
 async function startServer() {
   try {
+    // Step 1: Auto-restore database from backup if needed
+    logger.info('Checking for database backup...');
+    try {
+      const { checkAndRestore } = require('../scripts/auto-restore-db');
+      await checkAndRestore();
+    } catch (error) {
+      logger.warn('Auto-restore check failed, continuing with existing database:', error.message);
+    }
+
+    // Step 2: Initialize database
     await initDatabase();
     logger.info('Database initialized successfully');
 
+    // Step 3: Start server
     server = app.listen(PORT, '0.0.0.0', () => {
       logger.info(`
 ╔════════════════════════════════════════════════════════════╗
@@ -143,6 +162,9 @@ process.on('SIGTERM', () => {
   }
 });
 
-startServer();
+// Only start server if not in test environment
+if (process.env.NODE_ENV !== 'test') {
+  startServer();
+}
 
 module.exports = app;
