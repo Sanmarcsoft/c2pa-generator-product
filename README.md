@@ -91,6 +91,7 @@ The application automatically deploys to Google Cloud when pushed to the main br
 - **[Deployment Guide](docs/DEPLOYMENT.md)** - Deployment instructions
 
 ### GitHub Integration
+- **[GitHub RAG Indexing Instructions](GITHUB_RAG_INDEXING_INSTRUCTIONS.md)** - Index C2PA repositories for code-aware AI
 - **[GitHub Repository Validation](docs/GITHUB_REPO_VALIDATION.md)** - URL validation guide
 - **[GitHub RAG Setup](docs/GITHUB_RAG_SETUP.md)** - Repository indexing for AI assistance
 - **[GitHub Token Setup](docs/GITHUB_TOKEN_SETUP.md)** - Authentication configuration
