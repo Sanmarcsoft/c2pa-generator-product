@@ -144,6 +144,29 @@ class GitHubRagService {
         repoId = result.lastID;
       }
 
+      // Fetch repository description from README.md
+      let description = null;
+      try {
+        const readmeContent = await this.fetchFileContent(owner, repo, 'README.md');
+        if (readmeContent) {
+          // Extract first meaningful paragraph (skipping title and badges)
+          const lines = readmeContent.split('\n');
+          let foundDescription = false;
+          for (const line of lines) {
+            const trimmed = line.trim();
+            // Skip empty lines, titles (#), badges ([![), and very short lines
+            if (trimmed && !trimmed.startsWith('#') && !trimmed.startsWith('[![') && !trimmed.startsWith('<') && trimmed.length > 30) {
+              description = trimmed.substring(0, 200); // Limit to 200 chars
+              foundDescription = true;
+              break;
+            }
+          }
+          logger.info(`Extracted description: ${description || 'None found'}`);
+        }
+      } catch (error) {
+        logger.warn(`Could not fetch README for description: ${error.message}`);
+      }
+
       // Fetch repository tree
       const tree = await this.fetchRepositoryTree(owner, repo, branch);
 
@@ -193,10 +216,10 @@ class GitHubRagService {
         }));
       }
 
-      // Update repo with file count
+      // Update repo with file count and description
       await runAsync(
-        'UPDATE github_repos SET file_count = ?, indexed_at = datetime("now") WHERE id = ?',
-        [indexedCount, repoId]
+        'UPDATE github_repos SET file_count = ?, description = ?, indexed_at = datetime("now") WHERE id = ?',
+        [indexedCount, description, repoId]
       );
 
       logger.info(`Successfully indexed ${indexedCount} files from ${owner}/${repo}`);
@@ -383,6 +406,7 @@ class GitHubRagService {
           repo_name,
           branch,
           file_count,
+          description,
           indexed_at
         FROM github_repos
         ORDER BY indexed_at DESC
@@ -395,6 +419,7 @@ class GitHubRagService {
         name: repo.repo_name,
         branch: repo.branch,
         fileCount: repo.file_count,
+        description: repo.description,
         indexedAt: repo.indexed_at,
         url: `https://github.com/${repo.repo_owner}/${repo.repo_name}`
       }));

@@ -414,6 +414,16 @@
   color: #ffc107;
 }
 
+.repo-description {
+  display: block;
+  margin: 0.5rem 0;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.4;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
 .last-indexed {
   display: block;
   margin-top: 0.5rem;
@@ -525,5 +535,60 @@
 
   .repo-separator {
     display: none;
+  }
+}
+
+/* Toast Notification */
+.toast-notification {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  max-width: 500px;
+  padding: 1.5rem;
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  animation: slideIn 0.3s ease-out;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.toast-notification.success {
+  background: rgba(0, 255, 0, 0.15);
+  border: 2px solid #00ff00;
+  color: #00ff00;
+}
+
+.toast-notification.error {
+  background: rgba(255, 0, 0, 0.15);
+  border: 2px solid #ff0000;
+  color: #ff0000;
+}
+
+.toast-notification span {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .toast-notification {
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
   }
 }

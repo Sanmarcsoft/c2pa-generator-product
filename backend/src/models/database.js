@@ -264,6 +264,17 @@ async function initDatabase() {
       logger.info('Chat messages table migration completed');
     }
 
+    // Migration: Add description column to github_repos if it doesn't exist
+    logger.info('Checking github_repos table schema for description column...');
+    const reposTableInfo = await allAsync('PRAGMA table_info(github_repos)');
+    const hasDescription = reposTableInfo.some(col => col.name === 'description');
+
+    if (!hasDescription) {
+      logger.info('Migrating github_repos table: adding description column');
+      await runAsync('ALTER TABLE github_repos ADD COLUMN description TEXT');
+      logger.info('Added description column to github_repos');
+    }
+
     // Application settings table (for onboarding and configuration)
     await runAsync(`
       CREATE TABLE IF NOT EXISTS app_settings (

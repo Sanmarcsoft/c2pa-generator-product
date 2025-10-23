@@ -24,11 +24,23 @@ const AdminPage = () => {
     openwebuiApiKey: false,
     githubToken: false
   });
+  const [notification, setNotification] = useState(null);
+  const [githubRepos, setGithubRepos] = useState([]);
+  const [newRepoUrl, setNewRepoUrl] = useState('');
+  const [indexing, setIndexing] = useState(false);
+  const [validating, setValidating] = useState(false);
+
+  // Show notification helper
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 5000);
+  };
 
   useEffect(() => {
     if (user?.role === 'admin') {
       loadConfig();
       loadStats();
+      loadGitHubRepos();
     }
   }, [user]);
 
@@ -77,6 +89,23 @@ const AdminPage = () => {
     }
   };
 
+  const loadGitHubRepos = async () => {
+    try {
+      const response = await fetch('/api/github/repos', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        setGithubRepos(data.repositories || []);
+      }
+    } catch (error) {
+      console.error('Error loading GitHub repos:', error);
+    }
+  };
+
   const handleSaveAI = async () => {
     setSaving(true);
     setTestResult(null);
@@ -100,8 +129,11 @@ const AdminPage = () => {
       const data = await response.json();
 
       if (data.success) {
-        alert('AI configuration saved successfully!' +
-          (data.requiresRestart ? '\n\nNote: Server restart may be required for secrets to take effect.' : ''));
+        showNotification(
+          'AI configuration saved successfully!' +
+          (data.requiresRestart ? ' Note: Server restart may be required for secrets to take effect.' : ''),
+          'success'
+        );
 
         // Clear password fields
         setConfig({
@@ -113,11 +145,11 @@ const AdminPage = () => {
         // Reload config
         await loadConfig();
       } else {
-        alert('Failed to save AI configuration: ' + data.error);
+        showNotification('Failed to save AI configuration: ' + data.error, 'error');
       }
     } catch (error) {
       console.error('Error saving AI config:', error);
-      alert('Failed to save AI configuration');
+      showNotification('Failed to save AI configuration', 'error');
     } finally {
       setSaving(false);
     }
@@ -142,7 +174,7 @@ const AdminPage = () => {
       const data = await response.json();
 
       if (data.success) {
-        alert('GitHub configuration saved successfully!');
+        showNotification('GitHub configuration saved successfully!', 'success');
 
         // Clear token field
         setConfig({
@@ -153,11 +185,11 @@ const AdminPage = () => {
         // Reload config
         await loadConfig();
       } else {
-        alert('Failed to save GitHub configuration: ' + data.error);
+        showNotification('Failed to save GitHub configuration: ' + data.error, 'error');
       }
     } catch (error) {
       console.error('Error saving GitHub config:', error);
-      alert('Failed to save GitHub configuration');
+      showNotification('Failed to save GitHub configuration', 'error');
     } finally {
       setSaving(false);
     }
@@ -194,6 +226,134 @@ const AdminPage = () => {
     }
   };
 
+  const handleAddRepoFromUrl = async () => {
+    if (!newRepoUrl) {
+      showNotification('Please enter a GitHub repository URL', 'error');
+      return;
+    }
+
+    const trimmedUrl = newRepoUrl.trim();
+    if (!trimmedUrl.startsWith('https://github.com/') && !trimmedUrl.startsWith('https://www.github.com/')) {
+      showNotification('URL must start with https://github.com/ or https://www.github.com/', 'error');
+      return;
+    }
+
+    let owner, repo;
+
+    try {
+      setValidating(true);
+
+      const urlPattern = /https:\/\/(?:www\.)?github\.com\/([^\/]+)\/([^\/\s#?]+)/;
+      const urlMatch = trimmedUrl.match(urlPattern);
+
+      if (urlMatch) {
+        owner = urlMatch[1];
+        repo = urlMatch[2].replace(/\.git$/, '');
+      } else {
+        showNotification('Invalid GitHub URL format. Expected: https://github.com/owner/repo', 'error');
+        setValidating(false);
+        return;
+      }
+
+      const checkResponse = await fetch(`/api/admin/github/check/${owner}/${repo}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const checkData = await checkResponse.json();
+
+      if (!checkData.success || !checkData.exists) {
+        showNotification(`Repository ${owner}/${repo} not found or not accessible. Please check the URL and your GitHub token permissions.`, 'error');
+        setValidating(false);
+        return;
+      }
+
+      setIndexing(true);
+
+      const response = await fetch('/api/github/repos/index', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ owner, repo })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        showNotification(`✓ Repository ${owner}/${repo} indexed successfully! ${data.filesIndexed || 0} files indexed and ready for RAG.`, 'success');
+        setNewRepoUrl('');
+        await loadGitHubRepos();
+      } else {
+        showNotification(`Failed to index repository: ${data.error || data.message || 'Unknown error'}`, 'error');
+      }
+    } catch (error) {
+      console.error('Error adding repo:', error);
+      showNotification(`Failed to add repository: ${error.message}`, 'error');
+    } finally {
+      setValidating(false);
+      setIndexing(false);
+    }
+  };
+
+  const handleRemoveRepo = async (repoId, repoName) => {
+    if (!confirm(`Remove repository ${repoName}?`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/github/repos/${repoId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        showNotification(`✓ Repository ${repoName} removed successfully!`, 'success');
+        await loadGitHubRepos();
+      } else {
+        showNotification(`Failed to remove repository: ${data.error || 'Unknown error'}`, 'error');
+      }
+    } catch (error) {
+      console.error('Error removing repo:', error);
+      showNotification(`Failed to remove repository: ${error.message}`, 'error');
+    }
+  };
+
+  const handleIndexRepo = async (owner, name) => {
+    setIndexing(true);
+
+    try {
+      const response = await fetch('/api/github/repos/index', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ owner, repo: name })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        showNotification(`✓ Repository ${owner}/${name} indexed successfully! ${data.filesIndexed || 0} files indexed and ready for RAG.`, 'success');
+        await loadGitHubRepos();
+      } else {
+        showNotification(`Failed to index ${owner}/${name}: ${data.error || data.message || 'Unknown error'}`, 'error');
+      }
+    } catch (error) {
+      console.error('Error indexing repo:', error);
+      showNotification(`Indexing failed for ${owner}/${name}: ${error.message}`, 'error');
+    } finally {
+      setIndexing(false);
+    }
+  };
+
   const toggleSecretVisibility = (field) => {
     setShowSecrets({
       ...showSecrets,
@@ -223,6 +383,14 @@ const AdminPage = () => {
 
   return (
     <div className="admin-page">
+      {/* Toast Notification */}
+      {notification && (
+        <div className={`toast-notification ${notification.type}`}>
+          <span>{notification.type === 'success' ? '✓' : '✗'}</span>
+          {notification.message}
+        </div>
+      )}
+
       <div className="admin-header">
         <h1 className="pixel-text">⚙️ Admin Control Panel</h1>
         <p className="subtitle">Configure AI providers, GitHub integration, and system settings</p>
@@ -425,17 +593,84 @@ const AdminPage = () => {
           {saving ? 'Saving...' : 'Save GitHub Configuration'}
         </button>
 
-        {/* Repository Management Link */}
+        {/* GitHub RAG Repository Management */}
         {config.githubConfigured && secrets.hasGitHubToken && (
-          <div className="info-box" style={{ marginTop: '1.5rem', padding: '1.5rem', background: 'rgba(0, 255, 255, 0.05)', border: '2px solid var(--cyan)', borderRadius: '4px' }}>
-            <h3 style={{ marginTop: 0 }}>📚 GitHub Repositories for RAG</h3>
-            <p>
-              To add and manage GitHub repositories for Retrieval-Augmented Generation,
-              please use the repository management interface in the Settings page.
+          <div className="github-repos-section">
+            <h3>📚 GitHub Repositories for RAG</h3>
+            <p className="section-description">
+              Add GitHub repositories to enhance AI responses with code examples and documentation. Paste a GitHub repository URL below.
             </p>
-            <a href="/settings" className="btn-secondary" style={{ display: 'inline-block', marginTop: '1rem' }}>
-              Go to Settings → AI & Models
-            </a>
+
+            <div className="add-repo-form">
+              <label>Repository URL</label>
+              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                <input
+                  type="text"
+                  value={newRepoUrl}
+                  onChange={(e) => setNewRepoUrl(e.target.value)}
+                  placeholder="https://github.com/contentauth/c2pa-js"
+                  disabled={validating || indexing}
+                  style={{ flex: 1 }}
+                />
+                <button
+                  onClick={handleAddRepoFromUrl}
+                  disabled={!newRepoUrl || validating || indexing}
+                  className="btn-primary"
+                >
+                  {validating ? 'VALIDATING...' : indexing ? 'INDEXING...' : 'ADD REPOSITORY'}
+                </button>
+              </div>
+              <small>Must start with https://github.com/ or https://www.github.com/</small>
+            </div>
+
+            {githubRepos.length > 0 ? (
+              <div>
+                <h4>Configured Repositories:</h4>
+                <div className="repos-list">
+                  {githubRepos.map(repo => (
+                    <div key={repo.id} className="repo-card">
+                      <div className="repo-info">
+                        <strong>
+                          <a href={repo.url} target="_blank" rel="noopener noreferrer">
+                            {repo.owner}/{repo.name}
+                          </a>
+                          <span className="repo-status indexed">
+                            ✓ Indexed ({repo.fileCount || 0} files)
+                          </span>
+                        </strong>
+                        {repo.description && (
+                          <p className="repo-description">{repo.description}</p>
+                        )}
+                        {repo.indexedAt && (
+                          <span className="last-indexed">
+                            Last indexed: {new Date(repo.indexedAt).toLocaleString()}
+                          </span>
+                        )}
+                      </div>
+                      <div className="repo-actions">
+                        <button
+                          onClick={() => handleIndexRepo(repo.owner, repo.name)}
+                          disabled={indexing}
+                          className="btn-secondary btn-small"
+                        >
+                          RE-INDEX
+                        </button>
+                        <button
+                          onClick={() => handleRemoveRepo(repo.id, `${repo.owner}/${repo.name}`)}
+                          className="btn-danger btn-small"
+                        >
+                          REMOVE
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="empty-state">
+                No repositories configured yet. Add a repository above to enable RAG features.
+              </div>
+            )}
           </div>
         )}
       </div>
