@@ -3,7 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const logger = require('../utils/logger');
 
-const DB_PATH = path.join(__dirname, '../../../data/app.db');
+// Use absolute path to ensure data persists in Docker volume
+const DB_PATH = process.env.DATABASE_PATH || path.join('/app', 'data', 'app.db');
 
 // Ensure data directory exists
 const dataDir = path.dirname(DB_PATH);
