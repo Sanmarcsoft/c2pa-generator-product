@@ -42,11 +42,23 @@ router.get('/config', requireAuth, requireAdmin, async (req, res) => {
     // Get secret values (without exposing actual secrets)
     const hasOpenAIKey = !!getSecret('OPENAI_API_KEY');
     const hasOpenWebUIKey = !!getSecret('OPENWEBUI_API_KEY');
-    const hasGitHubToken = !!getSecret('GITHUB_TOKEN');
+
+    // Check for GitHub token in database
+    const githubTokenSetting = await getAsync(
+      'SELECT value FROM app_settings WHERE key = ?',
+      ['github_token']
+    );
+    const hasGitHubToken = !!(githubTokenSetting && githubTokenSetting.value);
+
+    // Remove github_token from settings if it exists (never expose it)
+    delete settingsObject.github_token;
+
+    // Add hasGithubToken flag to config
+    settingsObject.hasGithubToken = hasGitHubToken;
 
     res.json({
       success: true,
-      settings: settingsObject,
+      config: settingsObject,
       secrets: {
         hasOpenAIKey,
         hasOpenWebUIKey,
@@ -192,6 +204,186 @@ router.put('/config/github', requireAuth, requireAdmin, async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Failed to update GitHub configuration'
+    });
+  }
+});
+
+/**
+ * GET /api/admin/github/token
+ * Get GitHub token status (masked preview only)
+ * ADMIN ONLY
+ */
+router.get('/github/token', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const tokenSetting = await getAsync(
+      'SELECT value FROM app_settings WHERE key = ?',
+      ['github_token']
+    );
+
+    if (!tokenSetting || !tokenSetting.value) {
+      return res.json({
+        success: true,
+        hasToken: false
+      });
+    }
+
+    // Return masked preview (first 4 + last 4 chars)
+    const token = tokenSetting.value;
+    const tokenPreview = token.length > 8
+      ? `${token.substring(0, 4)}...${token.substring(token.length - 4)}`
+      : `${token.substring(0, 4)}...****`;
+
+    res.json({
+      success: true,
+      hasToken: true,
+      tokenPreview
+    });
+  } catch (error) {
+    logger.error('Error fetching GitHub token status:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch GitHub token status'
+    });
+  }
+});
+
+/**
+ * POST /api/admin/github/token
+ * Set GitHub token (only if no token exists)
+ * ADMIN ONLY
+ */
+router.post('/github/token', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    // Validate token is provided
+    if (!token || typeof token !== 'string' || token.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'GitHub token is required'
+      });
+    }
+
+    // Validate token format (GitHub personal access tokens)
+    const isValidFormat = token.startsWith('ghp_') || token.startsWith('github_pat_');
+    if (!isValidFormat) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid token format. GitHub tokens must start with "ghp_" or "github_pat_"'
+      });
+    }
+
+    // Check if token already exists
+    const existingToken = await getAsync(
+      'SELECT value FROM app_settings WHERE key = ?',
+      ['github_token']
+    );
+
+    if (existingToken && existingToken.value) {
+      return res.status(409).json({
+        success: false,
+        error: 'A GitHub token already exists. Please delete the existing token first before setting a new one.'
+      });
+    }
+
+    // Validate token with GitHub API
+    try {
+      const { Octokit } = require('@octokit/rest');
+      const octokit = new Octokit({ auth: token });
+      const { data: user } = await octokit.rest.users.getAuthenticated();
+      logger.info(`GitHub token validated for user: ${user.login}`);
+    } catch (error) {
+      logger.error('GitHub token validation failed:', error);
+      return res.status(401).json({
+        success: false,
+        error: 'Invalid GitHub token or insufficient permissions. Token needs "repo" or "public_repo" scope.'
+      });
+    }
+
+    // Save token
+    await runAsync(`
+      INSERT INTO app_settings (key, value, type, updated_at)
+      VALUES ('github_token', ?, 'secret', datetime('now'))
+      ON CONFLICT(key) DO UPDATE SET
+        value = excluded.value,
+        updated_at = datetime('now')
+    `, [token]);
+
+    // Update github_configured flag for backwards compatibility
+    await runAsync(`
+      INSERT INTO app_settings (key, value, type, updated_at)
+      VALUES ('github_configured', 'true', 'boolean', datetime('now'))
+      ON CONFLICT(key) DO UPDATE SET
+        value = 'true',
+        updated_at = datetime('now')
+    `);
+
+    // Update environment variable for runtime use
+    process.env.GITHUB_TOKEN = token;
+    setSecret('GITHUB_TOKEN', token);
+
+    logger.info(`GitHub token set by admin: ${req.user.email}`);
+
+    res.json({
+      success: true,
+      message: 'GitHub token set successfully'
+    });
+  } catch (error) {
+    logger.error('Error setting GitHub token:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to set GitHub token'
+    });
+  }
+});
+
+/**
+ * DELETE /api/admin/github/token
+ * Delete GitHub token
+ * ADMIN ONLY
+ */
+router.delete('/github/token', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    // Check if token exists
+    const existingToken = await getAsync(
+      'SELECT value FROM app_settings WHERE key = ?',
+      ['github_token']
+    );
+
+    if (!existingToken || !existingToken.value) {
+      return res.status(404).json({
+        success: false,
+        error: 'No token found to delete'
+      });
+    }
+
+    // Delete token
+    await runAsync('DELETE FROM app_settings WHERE key = ?', ['github_token']);
+
+    // Update github_configured flag
+    await runAsync(`
+      INSERT INTO app_settings (key, value, type, updated_at)
+      VALUES ('github_configured', 'false', 'boolean', datetime('now'))
+      ON CONFLICT(key) DO UPDATE SET
+        value = 'false',
+        updated_at = datetime('now')
+    `);
+
+    // Clear environment variable
+    delete process.env.GITHUB_TOKEN;
+    setSecret('GITHUB_TOKEN', '');
+
+    logger.info(`GitHub token deleted by admin: ${req.user.email}`);
+
+    res.json({
+      success: true,
+      message: 'GitHub token deleted successfully'
+    });
+  } catch (error) {
+    logger.error('Error deleting GitHub token:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to delete GitHub token'
     });
   }
 });

@@ -9,9 +9,12 @@ const AdminPage = () => {
     openwebuiUrl: '',
     aiModel: '',
     openaiApiKey: '',
-    openwebuiApiKey: '',
-    githubToken: '',
-    githubConfigured: false
+    openwebuiApiKey: ''
+  });
+  const [githubToken, setGithubToken] = useState({
+    hasToken: false,
+    tokenPreview: '',
+    newToken: ''
   });
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -30,6 +33,18 @@ const AdminPage = () => {
   const [indexing, setIndexing] = useState(false);
   const [validating, setValidating] = useState(false);
 
+  // User Management state
+  const [users, setUsers] = useState([]);
+  const [showUserModal, setShowUserModal] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [userForm, setUserForm] = useState({
+    email: '',
+    password: '',
+    name: '',
+    role: 'user'
+  });
+  const [userModalLoading, setUserModalLoading] = useState(false);
+
   // Show notification helper
   const showNotification = (message, type = 'success') => {
     setNotification({ message, type });
@@ -40,7 +55,9 @@ const AdminPage = () => {
     if (user?.role === 'admin') {
       loadConfig();
       loadStats();
+      loadGitHubToken();
       loadGitHubRepos();
+      loadUsers();
     }
   }, [user]);
 
@@ -55,13 +72,11 @@ const AdminPage = () => {
 
       if (data.success) {
         setConfig({
-          aiProvider: data.settings.ai_provider || 'none',
-          openwebuiUrl: data.settings.openwebui_url || '',
-          aiModel: data.settings.ai_model || '',
+          aiProvider: data.config.ai_provider || 'none',
+          openwebuiUrl: data.config.openwebui_url || '',
+          aiModel: data.config.ai_model || '',
           openaiApiKey: '',
-          openwebuiApiKey: '',
-          githubToken: '',
-          githubConfigured: data.settings.github_configured || false
+          openwebuiApiKey: ''
         });
         setSecrets(data.secrets);
       }
@@ -103,6 +118,228 @@ const AdminPage = () => {
       }
     } catch (error) {
       console.error('Error loading GitHub repos:', error);
+    }
+  };
+
+  // GitHub Token Management functions
+  const loadGitHubToken = async () => {
+    try {
+      const response = await fetch('/api/admin/github/token', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        setGithubToken({
+          hasToken: data.hasToken || false,
+          tokenPreview: data.tokenPreview || '',
+          newToken: ''
+        });
+      }
+    } catch (error) {
+      console.error('Error loading GitHub token:', error);
+    }
+  };
+
+  const handleSetToken = async () => {
+    if (!githubToken.newToken || githubToken.newToken.trim().length === 0) {
+      showNotification('Please enter a GitHub token', 'error');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const response = await fetch('/api/admin/github/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ token: githubToken.newToken })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        showNotification('GitHub token set successfully!', 'success');
+        setGithubToken({ hasToken: false, tokenPreview: '', newToken: '' });
+        await loadGitHubToken();
+        await loadGitHubRepos();
+      } else {
+        showNotification(data.error || 'Failed to set token', 'error');
+      }
+    } catch (error) {
+      console.error('Error setting GitHub token:', error);
+      showNotification('Failed to set GitHub token', 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDeleteToken = async () => {
+    if (!confirm('Are you sure you want to delete the GitHub token? This will disable GitHub RAG features.')) {
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const response = await fetch('/api/admin/github/token', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        showNotification('GitHub token deleted successfully', 'success');
+        await loadGitHubToken();
+        await loadGitHubRepos();
+      } else {
+        showNotification(data.error || 'Failed to delete token', 'error');
+      }
+    } catch (error) {
+      console.error('Error deleting GitHub token:', error);
+      showNotification('Failed to delete GitHub token', 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // User Management functions
+  const loadUsers = async () => {
+    try {
+      const response = await fetch('/api/admin/users', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        setUsers(data.users || []);
+      }
+    } catch (error) {
+      console.error('Error loading users:', error);
+    }
+  };
+
+  const handleOpenUserModal = (userToEdit = null) => {
+    if (userToEdit) {
+      setEditingUser(userToEdit);
+      setUserForm({
+        email: userToEdit.email,
+        password: '',
+        name: userToEdit.name || '',
+        role: userToEdit.role
+      });
+    } else {
+      setEditingUser(null);
+      setUserForm({
+        email: '',
+        password: '',
+        name: '',
+        role: 'user'
+      });
+    }
+    setShowUserModal(true);
+  };
+
+  const handleCloseUserModal = () => {
+    setShowUserModal(false);
+    setEditingUser(null);
+    setUserForm({
+      email: '',
+      password: '',
+      name: '',
+      role: 'user'
+    });
+  };
+
+  const handleSaveUser = async (e) => {
+    e.preventDefault();
+    setUserModalLoading(true);
+
+    try {
+      const url = editingUser
+        ? `/api/admin/users/${editingUser.id}`
+        : '/api/admin/users';
+
+      const method = editingUser ? 'PUT' : 'POST';
+
+      const body = {
+        email: userForm.email,
+        name: userForm.name,
+        role: userForm.role
+      };
+
+      // Only include password if it's set (required for new users, optional for updates)
+      if (userForm.password) {
+        body.password = userForm.password;
+      } else if (!editingUser) {
+        showNotification('Password is required for new users', 'error');
+        setUserModalLoading(false);
+        return;
+      }
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(body)
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        showNotification(
+          editingUser ? 'User updated successfully!' : 'User created successfully!',
+          'success'
+        );
+        handleCloseUserModal();
+        await loadUsers();
+        await loadStats(); // Reload stats to update user count
+      } else {
+        showNotification('Failed to save user: ' + data.error, 'error');
+      }
+    } catch (error) {
+      console.error('Error saving user:', error);
+      showNotification('Failed to save user', 'error');
+    } finally {
+      setUserModalLoading(false);
+    }
+  };
+
+  const handleDeleteUser = async (userId, userEmail) => {
+    if (!confirm(`Are you sure you want to delete user "${userEmail}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        showNotification('User deleted successfully!', 'success');
+        await loadUsers();
+        await loadStats(); // Reload stats to update user count
+      } else {
+        showNotification('Failed to delete user: ' + data.error, 'error');
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      showNotification('Failed to delete user', 'error');
     }
   };
 
@@ -150,46 +387,6 @@ const AdminPage = () => {
     } catch (error) {
       console.error('Error saving AI config:', error);
       showNotification('Failed to save AI configuration', 'error');
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleSaveGitHub = async () => {
-    setSaving(true);
-
-    try {
-      const response = await fetch('/api/admin/config/github', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          token: config.githubToken || undefined,
-          configured: config.githubConfigured
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        showNotification('GitHub configuration saved successfully!', 'success');
-
-        // Clear token field
-        setConfig({
-          ...config,
-          githubToken: ''
-        });
-
-        // Reload config
-        await loadConfig();
-      } else {
-        showNotification('Failed to save GitHub configuration: ' + data.error, 'error');
-      }
-    } catch (error) {
-      console.error('Error saving GitHub config:', error);
-      showNotification('Failed to save GitHub configuration', 'error');
     } finally {
       setSaving(false);
     }
@@ -540,61 +737,74 @@ const AdminPage = () => {
         </div>
       </div>
 
-      {/* GitHub Configuration */}
+      {/* GitHub Token Management */}
       <div className="admin-section">
         <h2>🐙 GitHub Integration</h2>
+        <p className="section-description">
+          Configure a GitHub Personal Access Token to enable RAG (Retrieval-Augmented Generation)
+          features with your repositories.
+        </p>
 
-        <div className="form-group">
-          <label>
-            <input
-              type="checkbox"
-              checked={config.githubConfigured}
-              onChange={(e) => setConfig({ ...config, githubConfigured: e.target.checked })}
-            />
-            {' '}Enable GitHub Integration
-          </label>
-        </div>
-
-        {config.githubConfigured && (
-          <div className="form-group">
-            <label>GitHub Personal Access Token</label>
-            <div className="secret-input">
-              <input
-                type={showSecrets.githubToken ? "text" : "password"}
-                value={config.githubToken}
-                onChange={(e) => setConfig({ ...config, githubToken: e.target.value })}
-                placeholder={secrets.hasGitHubToken ? "••••••••••••" : "ghp_..."}
-              />
-              <button
-                type="button"
-                onClick={() => toggleSecretVisibility('githubToken')}
-                className="toggle-visibility"
-              >
-                {showSecrets.githubToken ? '🙈' : '👁️'}
-              </button>
+        {githubToken.hasToken ? (
+          <>
+            {/* Token Exists - Show Preview and Delete */}
+            <div className="form-group">
+              <label>Current GitHub Token</label>
+              <div className="token-display">
+                <code className="token-preview">{githubToken.tokenPreview}</code>
+                <button
+                  onClick={handleDeleteToken}
+                  disabled={saving}
+                  className="btn-danger btn-small"
+                >
+                  {saving ? 'DELETING...' : 'DELETE TOKEN'}
+                </button>
+              </div>
+              <small>To change the token, you must first delete the existing one.</small>
             </div>
-            {secrets.hasGitHubToken && (
-              <small className="text-success">✓ Token configured</small>
-            )}
-            <small>
-              <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">
-                Create a token
-              </a>{' '}
-              with 'repo' or 'public_repo' scope
-            </small>
-          </div>
+          </>
+        ) : (
+          <>
+            {/* No Token - Show Input to Set New Token */}
+            <div className="form-group">
+              <label>GitHub Personal Access Token</label>
+              <div className="secret-input">
+                <input
+                  type={showSecrets.githubToken ? "text" : "password"}
+                  value={githubToken.newToken}
+                  onChange={(e) => setGithubToken({ ...githubToken, newToken: e.target.value })}
+                  placeholder="ghp_... or github_pat_..."
+                  disabled={saving}
+                />
+                <button
+                  type="button"
+                  onClick={() => toggleSecretVisibility('githubToken')}
+                  className="toggle-visibility"
+                >
+                  {showSecrets.githubToken ? '🙈' : '👁️'}
+                </button>
+              </div>
+              <small>
+                <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">
+                  Create a token
+                </a>{' '}
+                with 'repo' or 'public_repo' scope
+              </small>
+            </div>
+
+            <button
+              onClick={handleSetToken}
+              disabled={!githubToken.newToken || saving}
+              className="btn-primary"
+            >
+              {saving ? 'SETTING TOKEN...' : 'SET GITHUB TOKEN'}
+            </button>
+          </>
         )}
+      </div>
 
-        <button
-          onClick={handleSaveGitHub}
-          disabled={saving}
-          className="btn-primary"
-        >
-          {saving ? 'Saving...' : 'Save GitHub Configuration'}
-        </button>
-
-        {/* GitHub RAG Repository Management */}
-        {config.githubConfigured && secrets.hasGitHubToken && (
+      {/* GitHub RAG Repository Management */}
+      {githubToken.hasToken && (
           <div className="github-repos-section">
             <h3>📚 GitHub Repositories for RAG</h3>
             <p className="section-description">
@@ -672,8 +882,149 @@ const AdminPage = () => {
               </div>
             )}
           </div>
+        )
+      }
+
+      {/* User Management Section */}
+      <div className="admin-section">
+        <h2>👥 User Management</h2>
+        <p className="section-description">
+          Manage user accounts, roles, and permissions. Create new users or modify existing accounts.
+        </p>
+
+        <div style={{ marginBottom: '1.5rem' }}>
+          <button onClick={() => handleOpenUserModal()} className="btn-primary">
+            + CREATE NEW USER
+          </button>
+        </div>
+
+        {users.length > 0 ? (
+          <div className="users-table-container">
+            <table className="users-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Created</th>
+                  <th>Last Login</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map(u => (
+                  <tr key={u.id}>
+                    <td>{u.name || '-'}</td>
+                    <td>{u.email}</td>
+                    <td>
+                      <span className={`role-badge ${u.role}`}>
+                        {u.role === 'admin' ? '👑 Admin' : '👤 User'}
+                      </span>
+                    </td>
+                    <td>{new Date(u.createdAt).toLocaleDateString()}</td>
+                    <td>{u.lastLogin ? new Date(u.lastLogin).toLocaleDateString() : 'Never'}</td>
+                    <td className="actions-cell">
+                      <button
+                        onClick={() => handleOpenUserModal(u)}
+                        className="btn-secondary btn-small"
+                        title="Edit user"
+                      >
+                        EDIT
+                      </button>
+                      <button
+                        onClick={() => handleDeleteUser(u.id, u.email)}
+                        className="btn-danger btn-small"
+                        disabled={u.id === user.id}
+                        title={u.id === user.id ? "Can't delete yourself" : "Delete user"}
+                      >
+                        DELETE
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="empty-state">
+            No users found. This shouldn't happen - at least one admin should exist.
+          </div>
         )}
       </div>
+
+      {/* User Modal */}
+      {showUserModal && (
+        <div className="modal-overlay" onClick={handleCloseUserModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>{editingUser ? 'Edit User' : 'Create New User'}</h2>
+            <form onSubmit={handleSaveUser}>
+              <div className="form-group">
+                <label>Email *</label>
+                <input
+                  type="email"
+                  value={userForm.email}
+                  onChange={(e) => setUserForm({ ...userForm, email: e.target.value })}
+                  required
+                  disabled={userModalLoading}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Name (Optional)</label>
+                <input
+                  type="text"
+                  value={userForm.name}
+                  onChange={(e) => setUserForm({ ...userForm, name: e.target.value })}
+                  disabled={userModalLoading}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Password {editingUser ? '(Leave blank to keep current)' : '*'}</label>
+                <input
+                  type="password"
+                  value={userForm.password}
+                  onChange={(e) => setUserForm({ ...userForm, password: e.target.value })}
+                  required={!editingUser}
+                  disabled={userModalLoading}
+                  minLength={8}
+                />
+                <small>Password must be at least 8 characters long</small>
+              </div>
+
+              <div className="form-group">
+                <label>Role *</label>
+                <select
+                  value={userForm.role}
+                  onChange={(e) => setUserForm({ ...userForm, role: e.target.value })}
+                  disabled={userModalLoading || (editingUser && editingUser.id === user.id)}
+                  required
+                >
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+                </select>
+                {editingUser && editingUser.id === user.id && (
+                  <small>You cannot change your own role</small>
+                )}
+              </div>
+
+              <div className="button-group">
+                <button type="submit" className="btn-primary" disabled={userModalLoading}>
+                  {userModalLoading ? 'SAVING...' : 'SAVE USER'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCloseUserModal}
+                  className="btn-secondary"
+                  disabled={userModalLoading}
+                >
+                  CANCEL
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Help Section */}
       <div className="admin-section help-section">

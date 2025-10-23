@@ -592,3 +592,188 @@
     max-width: none;
   }
 }
+
+/* User Management Styles */
+.users-table-container {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.users-table thead {
+  background: rgba(0, 255, 255, 0.1);
+  border-bottom: 2px solid var(--cyan);
+}
+
+.users-table th {
+  padding: 1rem;
+  text-align: left;
+  color: var(--cyan);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.users-table tbody tr {
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+  transition: background 0.2s;
+}
+
+.users-table tbody tr:hover {
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.users-table td {
+  padding: 1rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.role-badge.admin {
+  background: rgba(255, 0, 255, 0.2);
+  border: 1px solid var(--magenta);
+  color: var(--magenta);
+}
+
+.role-badge.user {
+  background: rgba(0, 255, 255, 0.2);
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+}
+
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: rgba(0, 0, 0, 0.95);
+  border: 2px solid var(--cyan);
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+}
+
+.modal-content h2 {
+  color: var(--cyan);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px var(--cyan);
+}
+
+.section-description {
+  color: #d0d0d0;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Responsive Tables */
+@media (max-width: 768px) {
+  .users-table {
+    font-size: 0.8rem;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 0.5rem;
+  }
+
+  .actions-cell {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .actions-cell button {
+    width: 100%;
+  }
+
+  .modal-content {
+    padding: 1rem;
+  }
+}
+
+/* GitHub Token Display Styles */
+.token-display {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 4px;
+  margin-top: 0.5rem;
+}
+
+.token-preview {
+  flex: 1;
+  font-family: 'Courier New', 'Courier', monospace;
+  color: var(--cyan);
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ff0055, #cc0044);
+  border: 2px solid #ff0055;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff2266, #dd0055);
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-danger.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
