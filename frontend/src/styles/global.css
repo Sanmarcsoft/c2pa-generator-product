@@ -1,0 +1,271 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Atari Vector Graphics Color Palette */
+  --neon-green: #00FF00;
+  --neon-cyan: #00FFFF;
+  --neon-magenta: #FF00FF;
+  --neon-yellow: #FFFF00;
+  --neon-orange: #FF8800;
+  --background-black: #000000;
+  --dark-gray: #1a1a1a;
+  --medium-gray: #333333;
+
+  /* Color aliases for consistency */
+  --cyan: #00FFFF;
+  --magenta: #FF00FF;
+  --green: #00FF00;
+
+  /* Text colors */
+  --text-primary: #00FF00;    /* Neon green - primary text */
+  --text-secondary: #00FFFF;  /* Cyan - secondary text */
+  --text-muted: #888888;      /* Gray - muted text with good contrast */
+
+  /* Typography */
+  --font-primary: 'Press Start 2P', monospace;
+  --font-fallback: 'Courier New', monospace;
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+
+  /* Borders */
+  --border-width: 2px;
+  --border-radius: 4px;
+
+  /* Animations */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* Glow effects */
+  --glow-green: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+  --glow-cyan: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+  --glow-magenta: 0 0 10px var(--neon-magenta), 0 0 20px var(--neon-magenta);
+}
+
+body {
+  font-family: var(--font-primary), var(--font-fallback);
+  background-color: var(--background-black);
+  color: var(--neon-green);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+  background: var(--dark-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neon-green);
+  border: 2px solid var(--background-black);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--neon-green);
+  color: var(--background-black);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: normal;
+  line-height: 1.4;
+  text-shadow: var(--glow-green);
+  margin-bottom: var(--spacing-md);
+}
+
+h1 {
+  font-size: 2rem;
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: var(--neon-green);
+}
+
+h3 {
+  font-size: 1.2rem;
+  color: var(--neon-magenta);
+  text-shadow: var(--glow-magenta);
+}
+
+p {
+  font-size: 0.875rem;
+  line-height: 1.8;
+  margin-bottom: var(--spacing-sm);
+}
+
+a {
+  color: var(--neon-cyan);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--neon-yellow);
+  text-shadow: var(--glow-cyan);
+}
+
+/* Button styling */
+button {
+  font-family: var(--font-primary);
+  font-size: 0.75rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: transparent;
+  border: var(--border-width) solid var(--neon-green);
+  color: var(--neon-green);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  text-transform: uppercase;
+  position: relative;
+}
+
+button:hover {
+  background: var(--neon-green);
+  color: var(--background-black);
+  box-shadow: var(--glow-green);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button.primary {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+
+button.primary:hover {
+  background: var(--neon-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+button.danger {
+  border-color: var(--neon-magenta);
+  color: var(--neon-magenta);
+}
+
+button.danger:hover {
+  background: var(--neon-magenta);
+  box-shadow: var(--glow-magenta);
+}
+
+/* Input styling */
+input, textarea, select {
+  font-family: var(--font-fallback);
+  font-size: 0.875rem;
+  padding: var(--spacing-sm);
+  background: var(--dark-gray);
+  border: var(--border-width) solid var(--neon-green);
+  color: var(--neon-green);
+  transition: var(--transition-fast);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--neon-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+input::placeholder, textarea::placeholder {
+  color: #888888; /* Medium gray with better contrast on dark backgrounds */
+  opacity: 0.7;
+}
+
+/* Container */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+/* Grid system */
+.grid {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Flex utilities */
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Spacing utilities */
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+
+/* Text utilities */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-cyan { color: var(--neon-cyan); }
+.text-magenta { color: var(--neon-magenta); }
+.text-yellow { color: var(--neon-yellow); }
+
+/* Loading spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  border: 3px solid var(--dark-gray);
+  border-top: 3px solid var(--neon-green);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  box-shadow: var(--glow-green);
+}

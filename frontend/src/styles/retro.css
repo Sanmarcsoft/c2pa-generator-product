@@ -1,0 +1,337 @@
+/* CRT Scanline Effect */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* CRT Glow Effect */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 255, 0, 0.05) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Vector Grid Background */
+.vector-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(0, 255, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 0, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+/* Retro Card */
+.retro-card {
+  background: rgba(26, 26, 26, 0.9);
+  border: 2px solid var(--neon-green);
+  padding: var(--spacing-md);
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.retro-card::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.retro-card:hover::before {
+  opacity: 0.2;
+}
+
+/* Glitch Text Effect */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.glitch-text {
+  animation: glitch 0.3s ease-in-out;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: var(--glow-green);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 20px var(--neon-green), 0 0 40px var(--neon-green);
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Typewriter Effect */
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.typewriter {
+  overflow: hidden;
+  border-right: 2px solid var(--neon-green);
+  white-space: nowrap;
+  animation: typewriter 2s steps(40) 1s forwards, blink 0.75s step-end infinite;
+}
+
+/* Vector Line Animations */
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.vector-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-line 2s ease-in-out forwards;
+}
+
+/* Retro Border Animation */
+@keyframes border-pulse {
+  0%, 100% {
+    border-color: var(--neon-green);
+    box-shadow: var(--glow-green);
+  }
+  33% {
+    border-color: var(--neon-cyan);
+    box-shadow: var(--glow-cyan);
+  }
+  66% {
+    border-color: var(--neon-magenta);
+    box-shadow: var(--glow-magenta);
+  }
+}
+
+.animated-border {
+  animation: border-pulse 3s ease-in-out infinite;
+}
+
+/* Floating Animation (for avatar) */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Rotating Animation */
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating {
+  animation: rotate-slow 20s linear infinite;
+}
+
+/* Progress Bar */
+.retro-progress-bar {
+  width: 100%;
+  height: 20px;
+  background: var(--dark-gray);
+  border: 2px solid var(--neon-green);
+  position: relative;
+  overflow: hidden;
+}
+
+.retro-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+  transition: width var(--transition-slow);
+  box-shadow: var(--glow-green);
+}
+
+@keyframes progress-shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+.retro-progress-bar-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  background-size: 200px 100%;
+  animation: progress-shimmer 2s linear infinite;
+}
+
+/* Pixel Border */
+.pixel-border {
+  position: relative;
+  padding: var(--spacing-md);
+}
+
+.pixel-border::before,
+.pixel-border::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--neon-green);
+  box-shadow: var(--glow-green);
+}
+
+.pixel-border::before {
+  top: -4px;
+  left: -4px;
+}
+
+.pixel-border::after {
+  bottom: -4px;
+  right: -4px;
+}
+
+/* Notification Toast */
+.retro-toast {
+  position: fixed;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  background: rgba(0, 0, 0, 0.95);
+  border: 2px solid var(--neon-cyan);
+  padding: var(--spacing-md);
+  min-width: 300px;
+  box-shadow: var(--glow-cyan), 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Retro Badge */
+.retro-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.625rem;
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+  text-transform: uppercase;
+  background: rgba(0, 255, 0, 0.1);
+}
+
+.retro-badge.cyan {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.retro-badge.magenta {
+  border-color: var(--neon-magenta);
+  color: var(--neon-magenta);
+  background: rgba(255, 0, 255, 0.1);
+}
+
+/* Screen Flicker Effect */
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  41.99%, 43%, 45.99%, 47%, 47.99% {
+    opacity: 0.6;
+  }
+  42%, 44%, 46%, 47.02% {
+    opacity: 1;
+  }
+}
+
+.screen-flicker {
+  animation: flicker 5s linear infinite;
+}

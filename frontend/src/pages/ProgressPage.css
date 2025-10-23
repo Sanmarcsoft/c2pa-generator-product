@@ -1,0 +1,69 @@
+.progress-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.company-info {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg);
+}
+
+.phases-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.phase-progress-item {
+  padding: var(--spacing-lg);
+}
+
+.phase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.phase-header h3 {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.625rem;
+  border: 1px solid;
+}
+
+.status-badge.pending {
+  border-color: #888888;
+  color: #888888; /* Better contrast than medium-gray */
+}
+
+.status-badge.in_progress {
+  border-color: var(--neon-yellow);
+  color: var(--neon-yellow);
+  box-shadow: 0 0 10px var(--neon-yellow);
+}
+
+.status-badge.completed {
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  box-shadow: var(--glow-green);
+}
+
+.overall-progress {
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+
+.progress-text {
+  margin-top: var(--spacing-md);
+  font-size: 1.25rem;
+  color: var(--neon-cyan);
+}

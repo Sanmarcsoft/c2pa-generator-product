@@ -1,0 +1,657 @@
+.settings-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: var(--text-primary);
+}
+
+.settings-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 0, 0.1));
+  border: 2px solid var(--cyan);
+  border-radius: 8px;
+}
+
+.settings-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px var(--cyan);
+}
+
+.settings-header .subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Tabs */
+.settings-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tab-button {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 2px solid var(--cyan);
+  color: var(--cyan);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--cyan);
+  transition: left 0.3s;
+  z-index: -1;
+}
+
+.tab-button:hover::before,
+.tab-button.active::before {
+  left: 0;
+}
+
+.tab-button:hover,
+.tab-button.active {
+  color: #000;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+.tab-button.active {
+  font-weight: bold;
+}
+
+/* Settings Content */
+.settings-content {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid var(--cyan);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.settings-section {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.settings-section h2 {
+  color: var(--cyan);
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--cyan);
+  text-shadow: 0 0 5px var(--cyan);
+}
+
+.section-description {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1rem;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.form-group label {
+  display: block;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="range"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid var(--cyan);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: 'Press Start 2P', monospace;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.6;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--magenta);
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+}
+
+.form-group small {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Checkbox Groups */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Range Slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: rgba(0, 255, 255, 0.2);
+  border-radius: 4px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: var(--cyan);
+  border: 2px solid var(--cyan);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: var(--cyan);
+  border: 2px solid var(--cyan);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+/* Feature Grid */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.feature-card {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--magenta);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255, 0, 255, 0.5);
+}
+
+.feature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.feature-header h3 {
+  color: var(--cyan);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.feature-card p {
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Toggle Switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: 0.4s;
+  border-radius: 26px;
+  border: 2px solid var(--cyan);
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--cyan);
+  transition: 0.4s;
+  border-radius: 50%;
+  box-shadow: 0 0 5px var(--cyan);
+}
+
+.toggle input:checked + .toggle-slider {
+  background-color: rgba(0, 255, 0, 0.3);
+  border-color: #00ff00;
+}
+
+.toggle input:checked + .toggle-slider:before {
+  transform: translateX(24px);
+  background-color: #00ff00;
+  box-shadow: 0 0 10px #00ff00;
+}
+
+/* Advanced Actions */
+.advanced-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.action-card {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--cyan);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.action-card.danger {
+  border-color: #ff0000;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+.action-card h3 {
+  color: var(--cyan);
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.action-card.danger h3 {
+  color: #ff0000;
+}
+
+.action-card p {
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+/* Buttons */
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid;
+  border-radius: 4px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 1.5rem;
+}
+
+.btn-primary {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #000;
+  width: 100%;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--magenta);
+  border-color: var(--magenta);
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--cyan);
+  color: var(--cyan);
+  width: 100%;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: rgba(0, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.btn-danger {
+  background: transparent;
+  border-color: #ff0000;
+  color: #ff0000;
+  width: 100%;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: rgba(255, 0, 0, 0.1);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Error Box */
+.error-box {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255, 0, 0, 0.1);
+  border: 2px solid #ff0000;
+  border-radius: 8px;
+  color: #ff0000;
+}
+
+.error-box h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.5rem;
+  color: var(--cyan);
+}
+
+/* RAG Repositories Section */
+.rag-repos-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid rgba(0, 255, 255, 0.3);
+}
+
+.rag-repos-section h3 {
+  color: var(--cyan);
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.rag-repos-section .section-description {
+  color: #d0d0d0;
+  margin-bottom: 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+}
+
+.repo-url-input {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.repo-url-input input {
+  flex: 1;
+  min-width: 0;
+}
+
+.repo-url-input button {
+  margin-top: 0;
+  width: auto;
+  white-space: nowrap;
+}
+
+.repos-list {
+  margin-top: 1.5rem;
+}
+
+.repos-list h4 {
+  color: var(--cyan);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.repo-item {
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px solid var(--cyan);
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.repo-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.repo-info strong {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.repo-info a {
+  color: var(--cyan);
+  text-decoration: none;
+  font-family: 'Courier New', monospace;
+}
+
+.repo-info a:hover {
+  text-decoration: underline;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  margin-left: 0.75rem;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.status-badge.indexed {
+  background: rgba(0, 255, 0, 0.2);
+  border: 1px solid var(--green);
+  color: var(--green);
+}
+
+.status-badge.pending {
+  background: rgba(255, 193, 7, 0.2);
+  border: 1px solid #ffc107;
+  color: #ffc107;
+}
+
+.repo-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.65rem;
+  margin-top: 0;
+  width: auto;
+}
+
+.empty-repos {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px dashed rgba(0, 255, 255, 0.3);
+  border-radius: 4px;
+  color: #888;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Import Status Messages */
+.import-status {
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.9rem;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.import-status.info {
+  background: rgba(0, 191, 255, 0.1);
+  border: 2px solid #00bfff;
+  color: #00bfff;
+}
+
+.import-status.success {
+  background: rgba(0, 255, 0, 0.1);
+  border: 2px solid var(--green);
+  color: var(--green);
+}
+
+.import-status.error {
+  background: rgba(255, 68, 68, 0.1);
+  border: 2px solid #ff4444;
+  color: #ff4444;
+}
+
+.import-status .status-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.import-status.info .status-icon {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.import-status .status-message {
+  flex: 1;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .settings-page {
+    padding: 1rem;
+  }
+
+  .settings-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .settings-tabs {
+    flex-direction: column;
+  }
+
+  .tab-button {
+    width: 100%;
+  }
+
+  .feature-grid,
+  .advanced-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .repo-url-input {
+    flex-direction: column;
+  }
+
+  .repo-url-input button {
+    width: 100%;
+  }
+
+  .repo-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .repo-actions {
+    width: 100%;
+  }
+
+  .repo-actions button {
+    flex: 1;
+  }
+}

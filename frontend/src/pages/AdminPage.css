@@ -1,0 +1,529 @@
+.admin-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: var(--text-primary);
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+  border: 2px solid var(--cyan);
+  border-radius: 8px;
+}
+
+.admin-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px var(--cyan);
+}
+
+.admin-header .subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.admin-section {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid var(--cyan);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.admin-section h2 {
+  color: var(--cyan);
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--cyan);
+  text-shadow: 0 0 5px var(--cyan);
+}
+
+.admin-section h3 {
+  color: var(--magenta);
+  font-size: 1.3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Statistics Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.stat-card {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--magenta);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255, 0, 255, 0.5);
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  color: var(--cyan);
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 0 0 10px var(--cyan);
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid var(--cyan);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: 'Press Start 2P', monospace;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--magenta);
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+}
+
+.form-group input[type="checkbox"] {
+  margin-right: 0.5rem;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.form-group small {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.form-group small a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+.form-group small a:hover {
+  text-decoration: underline;
+}
+
+.text-success {
+  color: #00ff00 !important;
+}
+
+/* Secret Input with Toggle */
+.secret-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.secret-input input {
+  flex: 1;
+}
+
+.toggle-visibility {
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--cyan);
+  border-radius: 4px;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.toggle-visibility:hover {
+  background: rgba(0, 255, 255, 0.1);
+  border-color: var(--magenta);
+}
+
+/* Test Result */
+.test-result {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.test-result.success {
+  background: rgba(0, 255, 0, 0.1);
+  border: 2px solid #00ff00;
+  color: #00ff00;
+}
+
+.test-result.error {
+  background: rgba(255, 0, 0, 0.1);
+  border: 2px solid #ff0000;
+  color: #ff0000;
+}
+
+.models-list {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.models-list small {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid;
+  border-radius: 4px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #000;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--magenta);
+  border-color: var(--magenta);
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: rgba(0, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Help Section */
+.help-section {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: var(--magenta);
+}
+
+.help-content {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.help-content ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.help-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.help-content code {
+  background: rgba(0, 255, 255, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  color: var(--cyan);
+  font-size: 0.9rem;
+}
+
+.help-content a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+.help-content a:hover {
+  text-decoration: underline;
+}
+
+/* Error Box */
+.error-box {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255, 0, 0, 0.1);
+  border: 2px solid #ff0000;
+  border-radius: 8px;
+  color: #ff0000;
+}
+
+.error-box h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.5rem;
+  color: var(--cyan);
+}
+
+/* GitHub Repositories Section */
+.github-repos-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid rgba(0, 255, 255, 0.3);
+}
+
+.github-repos-section h3 {
+  color: var(--cyan);
+  margin-bottom: 1rem;
+}
+
+.github-repos-section .section-description {
+  color: #d0d0d0;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.add-repo-form {
+  margin-bottom: 1.5rem;
+}
+
+.repo-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.repo-input {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.75rem;
+  background: var(--dark-gray);
+  border: 2px solid var(--cyan);
+  color: var(--cyan);
+  font-family: 'Courier New', monospace;
+}
+
+.repo-separator {
+  color: var(--cyan);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.repos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.repo-card {
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px solid var(--cyan);
+  padding: 1rem;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.repo-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.repo-info strong {
+  color: var(--cyan);
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.repo-status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+}
+
+.repo-status.indexed {
+  background: rgba(0, 255, 0, 0.2);
+  border: 1px solid var(--green);
+  color: var(--green);
+}
+
+.repo-status.pending {
+  background: rgba(255, 193, 7, 0.2);
+  border: 1px solid #ffc107;
+  color: #ffc107;
+}
+
+.last-indexed {
+  display: block;
+  margin-top: 0.5rem;
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.repo-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+}
+
+.btn-danger {
+  background: transparent;
+  border: 2px solid #ff0000;
+  color: #ff0000;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: rgba(255, 0, 0, 0.1);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+.btn-danger.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.7rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+  border: 2px dashed rgba(0, 255, 255, 0.3);
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.index-result {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.index-result.success {
+  background: rgba(0, 255, 0, 0.1);
+  border: 2px solid var(--green);
+  color: var(--green);
+}
+
+.index-result.error {
+  background: rgba(255, 0, 0, 0.1);
+  border: 2px solid #ff0000;
+  color: #ff0000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-page {
+    padding: 1rem;
+  }
+
+  .admin-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+
+  .repo-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .repo-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .repo-actions button {
+    flex: 1;
+  }
+
+  .repo-inputs {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .repo-separator {
+    display: none;
+  }
+}
