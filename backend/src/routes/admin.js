@@ -810,7 +810,7 @@ router.put('/users/:id', requireAuth, requireAdmin, async (req, res) => {
         });
       }
 
-      const bcrypt = require('bcryptjs');
+      const bcrypt = require('bcrypt');
       const passwordHash = await bcrypt.hash(password, 10);
 
       updates.push('password_hash = ?');

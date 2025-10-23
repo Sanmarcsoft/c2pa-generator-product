@@ -804,8 +804,8 @@ const AdminPage = () => {
       </div>
 
       {/* GitHub RAG Repository Management */}
-      {githubToken.hasToken && (
-          <div className="github-repos-section">
+      <div className="admin-section">
+        <div className="github-repos-section">
             <h3>📚 GitHub Repositories for RAG</h3>
             <p className="section-description">
               Add GitHub repositories to enhance AI responses with code examples and documentation. Paste a GitHub repository URL below.
@@ -881,9 +881,8 @@ const AdminPage = () => {
                 No repositories configured yet. Add a repository above to enable RAG features.
               </div>
             )}
-          </div>
-        )
-      }
+        </div>
+      </div>
 
       {/* User Management Section */}
       <div className="admin-section">
