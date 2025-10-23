@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const logger = require('./utils/logger');
 const { initDatabase } = require('./models/database');
+const DatabaseIntegrityChecker = require('./utils/dbIntegrity');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -128,7 +129,12 @@ async function startServer() {
     await initDatabase();
     logger.info('Database initialized successfully');
 
-    // Step 3: Start server
+    // Step 3: Run database integrity checks
+    const integrityChecker = new DatabaseIntegrityChecker();
+    await integrityChecker.runAllChecks();
+    logger.info('Database integrity validation completed');
+
+    // Step 4: Start server
     server = app.listen(PORT, '0.0.0.0', () => {
       logger.info(`
 ╔════════════════════════════════════════════════════════════╗

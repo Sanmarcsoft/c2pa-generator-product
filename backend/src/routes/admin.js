@@ -150,9 +150,24 @@ router.put('/config/github', requireAuth, requireAdmin, async (req, res) => {
 
     // Update GitHub token in secrets if provided
     if (token) {
-      setSecret('GITHUB_TOKEN', token);
-      process.env.GITHUB_TOKEN = token;
-      logger.info('GitHub token updated');
+      // Validate GitHub token before saving
+      try {
+        const { Octokit } = require('@octokit/rest');
+        const octokit = new Octokit({ auth: token });
+        const { data: user } = await octokit.rest.users.getAuthenticated();
+        logger.info(`GitHub token validated for user: ${user.login}`);
+
+        // Token is valid, save it
+        setSecret('GITHUB_TOKEN', token);
+        process.env.GITHUB_TOKEN = token;
+        logger.info('GitHub token updated');
+      } catch (error) {
+        logger.error('GitHub token validation failed:', error);
+        return res.status(401).json({
+          success: false,
+          error: 'Invalid GitHub token or insufficient permissions. Token needs "repo" or "public_repo" scope.'
+        });
+      }
     }
 
     // Update GitHub configured status
@@ -306,16 +321,22 @@ router.get('/github/check/:owner/:repo', requireAuth, requireAdmin, async (req, 
         });
       }
 
-      if (error.status === 403) {
-        logger.warn(`Access forbidden to repository ${owner}/${repo}`);
+      if (error.status === 403 || error.status === 401) {
+        logger.warn(`Authentication/authorization failed for repository ${owner}/${repo}`);
         return res.json({
           success: false,
           exists: false,
-          error: 'Access forbidden. Check GitHub token permissions.'
+          error: 'GitHub authentication failed. Check token permissions.'
         });
       }
 
-      throw error;
+      // Log the error but return a user-friendly message
+      logger.error(`GitHub API error for ${owner}/${repo}:`, error.message);
+      return res.json({
+        success: false,
+        exists: false,
+        error: `GitHub API error: ${error.message || 'Unknown error'}`
+      });
     }
   } catch (error) {
     logger.error('Error checking repository existence:', error);
@@ -372,6 +393,336 @@ router.get('/stats', requireAuth, requireAdmin, async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch system statistics'
+    });
+  }
+});
+
+/**
+ * User Management Routes
+ */
+
+/**
+ * GET /api/admin/users
+ * Get all users
+ * ADMIN ONLY
+ */
+router.get('/users', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const users = await allAsync(`
+      SELECT
+        id,
+        email,
+        name,
+        role,
+        created_at,
+        last_login
+      FROM users
+      ORDER BY created_at DESC
+    `);
+
+    res.json({
+      success: true,
+      users: users.map(user => ({
+        id: user.id,
+        email: user.email,
+        name: user.name || '',
+        role: user.role,
+        createdAt: user.created_at,
+        lastLogin: user.last_login
+      }))
+    });
+  } catch (error) {
+    logger.error('Error fetching users:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch users'
+    });
+  }
+});
+
+/**
+ * POST /api/admin/users
+ * Create a new user
+ * ADMIN ONLY
+ */
+router.post('/users', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { email, password, name, role } = req.body;
+
+    // Validation
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        error: 'Email and password are required'
+      });
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid email format'
+      });
+    }
+
+    // Validate password strength
+    if (password.length < 8) {
+      return res.status(400).json({
+        success: false,
+        error: 'Password must be at least 8 characters long'
+      });
+    }
+
+    // Validate role
+    const validRoles = ['user', 'admin'];
+    if (role && !validRoles.includes(role)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid role. Must be "user" or "admin"'
+      });
+    }
+
+    // Check if user already exists
+    const existingUser = await getAsync('SELECT id FROM users WHERE email = ?', [email]);
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        error: 'User with this email already exists'
+      });
+    }
+
+    // Hash password
+    const bcrypt = require('bcryptjs');
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // Generate UUID
+    const { v4: uuidv4 } = require('uuid');
+    const userId = uuidv4();
+
+    // Create user
+    await runAsync(`
+      INSERT INTO users (id, email, password_hash, name, role, created_at)
+      VALUES (?, ?, ?, ?, ?, datetime('now'))
+    `, [userId, email.toLowerCase(), passwordHash, name || null, role || 'user']);
+
+    logger.info(`User created by admin ${req.user.email}: ${email} (role: ${role || 'user'})`);
+
+    // Fetch the created user (without password)
+    const newUser = await getAsync(`
+      SELECT id, email, name, role, created_at
+      FROM users
+      WHERE id = ?
+    `, [userId]);
+
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name || '',
+        role: newUser.role,
+        createdAt: newUser.created_at
+      }
+    });
+  } catch (error) {
+    logger.error('Error creating user:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to create user'
+    });
+  }
+});
+
+/**
+ * PUT /api/admin/users/:id
+ * Update a user
+ * ADMIN ONLY
+ */
+router.put('/users/:id', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { email, name, role, password } = req.body;
+
+    // Check if user exists
+    const existingUser = await getAsync('SELECT * FROM users WHERE id = ?', [id]);
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found'
+      });
+    }
+
+    // Prevent admin from removing their own admin role
+    if (id === req.user.id && role && role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        error: 'You cannot remove your own admin privileges'
+      });
+    }
+
+    const updates = [];
+    const params = [];
+
+    // Update email
+    if (email && email !== existingUser.email) {
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid email format'
+        });
+      }
+
+      // Check if email is already taken
+      const emailExists = await getAsync('SELECT id FROM users WHERE email = ? AND id != ?', [email, id]);
+      if (emailExists) {
+        return res.status(409).json({
+          success: false,
+          error: 'Email already in use'
+        });
+      }
+
+      updates.push('email = ?');
+      params.push(email.toLowerCase());
+    }
+
+    // Update name
+    if (name !== undefined) {
+      updates.push('name = ?');
+      params.push(name || null);
+    }
+
+    // Update role
+    if (role) {
+      const validRoles = ['user', 'admin'];
+      if (!validRoles.includes(role)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid role. Must be "user" or "admin"'
+        });
+      }
+
+      updates.push('role = ?');
+      params.push(role);
+    }
+
+    // Update password
+    if (password) {
+      if (password.length < 8) {
+        return res.status(400).json({
+          success: false,
+          error: 'Password must be at least 8 characters long'
+        });
+      }
+
+      const bcrypt = require('bcryptjs');
+      const passwordHash = await bcrypt.hash(password, 10);
+
+      updates.push('password_hash = ?');
+      params.push(passwordHash);
+    }
+
+    if (updates.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'No valid fields to update'
+      });
+    }
+
+    // Add user ID to params
+    params.push(id);
+
+    // Update user
+    await runAsync(`
+      UPDATE users
+      SET ${updates.join(', ')}
+      WHERE id = ?
+    `, params);
+
+    logger.info(`User updated by admin ${req.user.email}: ${existingUser.email} -> ${email || existingUser.email}`);
+
+    // Fetch updated user
+    const updatedUser = await getAsync(`
+      SELECT id, email, name, role, created_at, last_login
+      FROM users
+      WHERE id = ?
+    `, [id]);
+
+    res.json({
+      success: true,
+      message: 'User updated successfully',
+      user: {
+        id: updatedUser.id,
+        email: updatedUser.email,
+        name: updatedUser.name || '',
+        role: updatedUser.role,
+        createdAt: updatedUser.created_at,
+        lastLogin: updatedUser.last_login
+      }
+    });
+  } catch (error) {
+    logger.error('Error updating user:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to update user'
+    });
+  }
+});
+
+/**
+ * DELETE /api/admin/users/:id
+ * Delete a user
+ * ADMIN ONLY
+ */
+router.delete('/users/:id', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Check if user exists
+    const existingUser = await getAsync('SELECT * FROM users WHERE id = ?', [id]);
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found'
+      });
+    }
+
+    // Prevent admin from deleting themselves
+    if (id === req.user.id) {
+      return res.status(403).json({
+        success: false,
+        error: 'You cannot delete your own account'
+      });
+    }
+
+    // Check if this is the last admin
+    if (existingUser.role === 'admin') {
+      const adminCount = await getAsync("SELECT COUNT(*) as count FROM users WHERE role = 'admin'");
+      if (adminCount.count <= 1) {
+        return res.status(403).json({
+          success: false,
+          error: 'Cannot delete the last admin user'
+        });
+      }
+    }
+
+    // Delete user (cascading deletes will handle related records)
+    await runAsync('DELETE FROM users WHERE id = ?', [id]);
+
+    logger.info(`User deleted by admin ${req.user.email}: ${existingUser.email}`);
+
+    res.json({
+      success: true,
+      message: 'User deleted successfully'
+    });
+  } catch (error) {
+    logger.error('Error deleting user:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to delete user'
     });
   }
 });
