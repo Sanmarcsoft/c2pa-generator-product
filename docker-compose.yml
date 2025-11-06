@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   c2pa-assistant:
     build: .
@@ -7,8 +5,7 @@ services:
     ports:
       - "${PORT:-8080}:8080"
     volumes:
-      # Persistent data storage
-      # Using named volumes to avoid macOS path issues
+      # Persistent data storage using Docker volumes
       - c2pa-data:/app/data
       - c2pa-logs:/app/logs
       # Development: mount source for hot reload (comment out for production)
@@ -56,17 +53,7 @@ services:
 
 volumes:
   c2pa-data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ${PWD}/data
   c2pa-logs:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ${PWD}/logs
 
 networks:
   c2pa-network:

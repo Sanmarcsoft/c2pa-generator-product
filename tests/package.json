@@ -1,0 +1,23 @@
+{
+  "name": "c2pa-generator-tests",
+  "version": "1.0.0",
+  "description": "Comprehensive test suite for C2PA Generator Product Certification Assistant",
+  "main": "admin-rag.test.js",
+  "scripts": {
+    "test": "node admin-rag.test.js",
+    "test:admin": "node admin-rag.test.js",
+    "test:verbose": "node admin-rag.test.js --verbose"
+  },
+  "keywords": [
+    "testing",
+    "qa",
+    "c2pa",
+    "rag",
+    "admin"
+  ],
+  "author": "QA Test Engineer",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}

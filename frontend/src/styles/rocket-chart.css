@@ -1,0 +1,441 @@
+/* ===================================================
+   Rocket Progress Chart - CRT Vector Graphics Style
+   Atari-inspired Retro-Futuristic Design
+   =================================================== */
+
+/* === CRT Container === */
+.rocket-chart-container {
+  background: #0a0a0a;
+  position: relative;
+  height: 600px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow:
+    0 0 20px rgba(0, 255, 0, 0.2),
+    inset 0 0 100px rgba(0, 255, 0, 0.05);
+}
+
+/* CRT Screen Curvature Effect */
+.rocket-chart-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+  pointer-events: none;
+  z-index: 8;
+}
+
+/* === CRT Visual Effects === */
+
+/* Scanline Overlay */
+.crt-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Screen Vignette */
+.crt-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  pointer-events: none;
+  z-index: 9;
+}
+
+/* Optional CRT Flicker Animation */
+@keyframes crtFlicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.98; }
+}
+
+.rocket-chart-container.crt-effect {
+  animation: crtFlicker 3s ease-in-out infinite;
+}
+
+/* === Chart Content Area === */
+.rocket-chart-content {
+  position: relative;
+  height: 100%;
+  padding: 3rem 2rem;
+  z-index: 5;
+}
+
+/* === Phase Milestone Track === */
+.milestone-track {
+  position: absolute;
+  left: 50%;
+  top: 4rem;
+  bottom: 4rem;
+  transform: translateX(-50%);
+  width: 4px;
+}
+
+/* Connecting Line Between Milestones */
+.milestone-connecting-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #333 10%,
+    #333 90%,
+    transparent 100%
+  );
+  transform: translateX(-50%);
+}
+
+.milestone-connecting-line::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 8px,
+    #333 8px,
+    #333 16px
+  );
+}
+
+/* === Phase Milestone Markers === */
+.milestone-marker {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 6;
+}
+
+.milestone-marker:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.milestone-marker:focus {
+  outline: 2px solid #00FFFF;
+  outline-offset: 4px;
+}
+
+/* Milestone Circle SVG */
+.milestone-circle {
+  width: 100%;
+  height: 100%;
+}
+
+/* Milestone States */
+
+/* Pending State */
+.milestone-marker.pending .milestone-circle circle {
+  stroke: #444;
+  stroke-width: 3;
+  fill: none;
+}
+
+/* In-Progress State */
+.milestone-marker.in-progress .milestone-circle circle {
+  stroke: #FFB000;
+  stroke-width: 3;
+  fill: none;
+  filter: drop-shadow(0 0 6px rgba(255, 176, 0, 0.6));
+  animation: pulseMilestone 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseMilestone {
+  0%, 100% {
+    stroke-opacity: 1;
+    stroke-width: 3;
+  }
+  50% {
+    stroke-opacity: 0.6;
+    stroke-width: 4;
+  }
+}
+
+/* Completed State */
+.milestone-marker.completed .milestone-circle circle {
+  stroke: #00FF00;
+  stroke-width: 3;
+  fill: rgba(0, 255, 0, 0.5);
+  filter: drop-shadow(0 0 8px rgba(0, 255, 0, 0.6));
+}
+
+/* Go State (Ready for submission) */
+.milestone-marker.go .milestone-circle circle {
+  stroke: #00FF00;
+  stroke-width: 3;
+  fill: #00FF00;
+  filter: drop-shadow(0 0 12px rgba(0, 255, 0, 0.8)) drop-shadow(0 0 24px rgba(0, 255, 0, 0.4));
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 12px rgba(0, 255, 0, 0.8)) drop-shadow(0 0 24px rgba(0, 255, 0, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(0, 255, 0, 1)) drop-shadow(0 0 32px rgba(0, 255, 0, 0.6));
+  }
+}
+
+/* Phase Number Label */
+.milestone-number {
+  position: absolute;
+  left: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #666;
+  font-family: 'Courier New', monospace;
+}
+
+.milestone-marker.completed .milestone-number,
+.milestone-marker.in-progress .milestone-number,
+.milestone-marker.go .milestone-number {
+  color: #00FF00;
+  text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+}
+
+/* Phase Name Label */
+.milestone-name {
+  position: absolute;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #666;
+  white-space: nowrap;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+}
+
+.milestone-marker.completed .milestone-name,
+.milestone-marker.in-progress .milestone-name,
+.milestone-marker.go .milestone-name {
+  color: #00DD00;
+  text-shadow: 0 0 6px rgba(0, 255, 0, 0.4);
+}
+
+/* === Rocket Icon === */
+.rocket-icon {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 60px;
+  transition: top 800ms cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 7;
+  filter: drop-shadow(0 0 8px #00FF00) drop-shadow(0 0 16px #00FF00);
+  cursor: pointer;
+}
+
+.rocket-icon:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+  filter: drop-shadow(0 0 12px #00FF00) drop-shadow(0 0 24px #00FF00);
+}
+
+/* === Milestone Tooltip === */
+.milestone-tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: 120%;
+  transform: translateX(-50%);
+  background: rgba(10, 10, 10, 0.95);
+  border: 2px solid #00FF00;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  min-width: 200px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 20;
+  box-shadow:
+    0 0 12px rgba(0, 255, 0, 0.4),
+    inset 0 0 20px rgba(0, 255, 0, 0.05);
+}
+
+.milestone-marker:hover .milestone-tooltip {
+  opacity: 1;
+}
+
+/* Tooltip Arrow */
+.milestone-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #00FF00;
+}
+
+.tooltip-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #00FF00;
+  margin-bottom: 0.25rem;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+}
+
+.tooltip-status {
+  font-size: 0.75rem;
+  color: #00DD00;
+  margin-bottom: 0.25rem;
+  font-family: 'Courier New', monospace;
+}
+
+.tooltip-tasks {
+  font-size: 0.75rem;
+  color: #00FFFF;
+  font-family: 'Courier New', monospace;
+}
+
+/* === Responsive Design === */
+
+/* Tablet (768-1023px) */
+@media (max-width: 1023px) {
+  .rocket-chart-container {
+    height: 500px;
+  }
+
+  .rocket-chart-content {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .milestone-marker {
+    width: 24px;
+    height: 24px;
+  }
+
+  .rocket-icon {
+    width: 40px;
+    height: 50px;
+  }
+
+  .milestone-name {
+    font-size: 0.75rem;
+    left: 45px;
+  }
+
+  .milestone-number {
+    left: -35px;
+    font-size: 0.688rem;
+  }
+
+  .milestone-tooltip {
+    min-width: 180px;
+    padding: 0.625rem 0.875rem;
+  }
+
+  .tooltip-title {
+    font-size: 0.813rem;
+  }
+
+  .tooltip-status,
+  .tooltip-tasks {
+    font-size: 0.688rem;
+  }
+}
+
+/* Mobile (<768px) - Component hidden, shown in toggle panel */
+@media (max-width: 767px) {
+  .rocket-chart-container {
+    height: 450px;
+  }
+
+  .rocket-chart-content {
+    padding: 2rem 1rem;
+  }
+
+  .milestone-marker {
+    width: 20px;
+    height: 20px;
+  }
+
+  .rocket-icon {
+    width: 36px;
+    height: 45px;
+  }
+
+  .milestone-name {
+    display: none; /* Hide phase names on mobile for space */
+  }
+
+  .milestone-number {
+    left: -30px;
+    font-size: 0.625rem;
+  }
+
+  .milestone-tooltip {
+    min-width: 160px;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .tooltip-title {
+    font-size: 0.75rem;
+  }
+
+  .tooltip-status,
+  .tooltip-tasks {
+    font-size: 0.625rem;
+  }
+}
+
+/* === Accessibility === */
+.milestone-marker:focus-visible {
+  outline: 2px solid #00FFFF;
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .rocket-icon,
+  .milestone-marker,
+  .milestone-tooltip {
+    transition: none;
+  }
+
+  .milestone-marker.in-progress .milestone-circle circle,
+  .milestone-marker.go .milestone-circle circle,
+  .rocket-chart-container.crt-effect {
+    animation: none;
+  }
+}

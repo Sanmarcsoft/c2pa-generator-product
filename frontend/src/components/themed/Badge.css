@@ -1,0 +1,104 @@
+/**
+ * Themed Badge Styles
+ *
+ * Base styles that adapt to the current theme.
+ * Uses CSS custom properties defined by each theme.
+ */
+
+/* Base Badge Styles */
+.themed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-primary);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Variants */
+.themed-badge--default {
+  /* Inherits from theme-specific CSS */
+}
+
+.themed-badge--success {
+  /* Inherits from theme-specific CSS */
+}
+
+.themed-badge--warning {
+  /* Inherits from theme-specific CSS */
+}
+
+.themed-badge--error {
+  /* Inherits from theme-specific CSS */
+}
+
+.themed-badge--info {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-blue);
+}
+
+/* Sizes */
+.themed-badge--small {
+  padding: 0.25rem 0.5rem;
+  font-size: var(--text-xs);
+  border-radius: var(--radius-sm);
+}
+
+.themed-badge--medium {
+  padding: 0.375rem 0.75rem;
+  font-size: var(--text-sm);
+  border-radius: var(--radius-md);
+}
+
+.themed-badge--large {
+  padding: 0.5rem 1rem;
+  font-size: var(--text-base);
+  border-radius: var(--radius-md);
+}
+
+/* Status Dot */
+.themed-badge--dot {
+  padding-left: var(--space-2);
+}
+
+.themed-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.themed-badge--success .themed-badge__dot {
+  background: var(--accent-green, #10B981);
+}
+
+.themed-badge--warning .themed-badge__dot {
+  background: var(--accent-yellow, #F59E0B);
+}
+
+.themed-badge--error .themed-badge__dot {
+  background: var(--accent-red, #EF4444);
+}
+
+.themed-badge--info .themed-badge__dot {
+  background: var(--accent-blue);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Content */
+.themed-badge__content {
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}

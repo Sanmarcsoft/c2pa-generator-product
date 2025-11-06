@@ -1,0 +1,229 @@
+/**
+ * Elegant Theme - Inspired by Apple, Braun, Bang & Olufsen
+ *
+ * Philosophy:
+ * - Radical simplicity
+ * - Generous whitespace (3-5x industry standard)
+ * - Subtle, purposeful color
+ * - Refined typography
+ * - Effortless interaction
+ *
+ * "Perfection is achieved not when there is nothing more to add,
+ *  but when there is nothing left to take away." - Antoine de Saint-Exupéry
+ */
+
+[data-theme="elegant"] {
+  /* Neutral Foundation - Warm whites and deep grays */
+  --white: #FFFFFF;
+  --off-white: #FAFAF9;
+  --warm-gray-50: #F9FAFB;
+  --warm-gray-100: #F3F4F6;
+  --warm-gray-200: #E5E7EB;
+  --warm-gray-300: #D1D5DB;
+  --warm-gray-400: #9CA3AF;
+  --warm-gray-500: #6B7280;
+  --warm-gray-600: #4B5563;
+  --warm-gray-700: #374151;
+  --warm-gray-800: #1F2937;
+  --warm-gray-900: #111827;
+  --black: #000000;
+
+  /* Refined Accents - Used sparingly */
+  --accent-primary: #2563EB;      /* Confident blue */
+  --accent-primary-hover: #1D4ED8;
+  --accent-success: #059669;      /* Subtle green */
+  --accent-warning: #D97706;      /* Amber */
+  --accent-error: #DC2626;        /* Clean red */
+
+  /* Semantic Colors */
+  --background-primary: var(--white);
+  --background-secondary: var(--warm-gray-50);
+  --background-tertiary: var(--warm-gray-100);
+  --background-elevated: var(--white);
+
+  --text-primary: var(--warm-gray-900);
+  --text-secondary: var(--warm-gray-600);
+  --text-tertiary: var(--warm-gray-400);
+  --text-inverse: var(--white);
+
+  --border-subtle: var(--warm-gray-200);
+  --border-default: var(--warm-gray-300);
+  --border-strong: var(--warm-gray-400);
+
+  /* Typography - Geist for elegance, Inter as fallback */
+  --font-primary: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'SF Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace;
+
+  /* Type Scale - Generous sizing */
+  --text-display: 4rem;       /* 64px - Hero moments */
+  --text-h1: 3rem;           /* 48px - Page titles */
+  --text-h2: 2.25rem;        /* 36px - Section titles */
+  --text-h3: 1.875rem;       /* 30px - Subsections */
+  --text-h4: 1.5rem;         /* 24px - Cards */
+  --text-lg: 1.125rem;       /* 18px - Emphasis */
+  --text-base: 1rem;         /* 16px - Body */
+  --text-sm: 0.875rem;       /* 14px - Captions */
+  --text-xs: 0.75rem;        /* 12px - Labels */
+
+  /* Font Weights - Subtle variations */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Line Heights - Generous for readability */
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Spacing - Dramatic increases */
+  --space-1: 0.25rem;        /* 4px */
+  --space-2: 0.5rem;         /* 8px */
+  --space-3: 0.75rem;        /* 12px */
+  --space-4: 1rem;           /* 16px */
+  --space-5: 1.25rem;        /* 20px */
+  --space-6: 1.5rem;         /* 24px */
+  --space-8: 2rem;           /* 32px */
+  --space-10: 2.5rem;        /* 40px */
+  --space-12: 3rem;          /* 48px */
+  --space-16: 4rem;          /* 64px */
+  --space-20: 5rem;          /* 80px */
+  --space-24: 6rem;          /* 96px */
+  --space-32: 8rem;          /* 128px */
+  --space-40: 10rem;         /* 160px */
+  --space-48: 12rem;         /* 192px */
+
+  /* Border Radius - Subtle, refined */
+  --radius-none: 0;
+  --radius-sm: 0.25rem;      /* 4px */
+  --radius-md: 0.5rem;       /* 8px */
+  --radius-lg: 0.75rem;      /* 12px */
+  --radius-xl: 1rem;         /* 16px */
+  --radius-2xl: 1.5rem;      /* 24px */
+  --radius-full: 9999px;
+
+  /* Shadows - Subtle elevation */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.06), 0 4px 6px rgba(0, 0, 0, 0.02);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.08), 0 10px 10px rgba(0, 0, 0, 0.02);
+  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.12);
+
+  /* Transitions - Smooth, considered */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Z-Index Scale */
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-fixed: 1200;
+  --z-modal-backdrop: 1300;
+  --z-modal: 1400;
+  --z-popover: 1500;
+  --z-tooltip: 1600;
+}
+
+/* Dark Mode Variant (optional for future) */
+[data-theme="elegant"][data-mode="dark"] {
+  --background-primary: var(--warm-gray-900);
+  --background-secondary: var(--warm-gray-800);
+  --background-tertiary: var(--warm-gray-700);
+  --background-elevated: var(--warm-gray-800);
+
+  --text-primary: var(--warm-gray-50);
+  --text-secondary: var(--warm-gray-400);
+  --text-tertiary: var(--warm-gray-500);
+
+  --border-subtle: var(--warm-gray-700);
+  --border-default: var(--warm-gray-600);
+  --border-strong: var(--warm-gray-500);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.7), 0 4px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Global Overrides for Elegant Theme */
+[data-theme="elegant"] body {
+  letter-spacing: -0.011em;  /* Optical refinement */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-theme="elegant"] h1,
+[data-theme="elegant"] h2,
+[data-theme="elegant"] h3,
+[data-theme="elegant"] h4,
+[data-theme="elegant"] h5,
+[data-theme="elegant"] h6 {
+  letter-spacing: -0.02em;  /* Tighter for headlines */
+  font-weight: var(--weight-semibold);
+}
+
+/* Button Base - Elegant styling */
+[data-theme="elegant"] button:not(.unstyled) {
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+  background: var(--accent-primary);
+  color: var(--text-inverse);
+  border: none;
+  letter-spacing: -0.01em;
+}
+
+[data-theme="elegant"] button:not(.unstyled):hover:not(:disabled) {
+  background: var(--accent-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+[data-theme="elegant"] button:not(.unstyled):active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Input Base - Elegant styling */
+[data-theme="elegant"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="elegant"] textarea {
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--text-base);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--background-primary);
+  color: var(--text-primary);
+  transition: all var(--transition-base);
+}
+
+[data-theme="elegant"] input:focus,
+[data-theme="elegant"] textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Card Component - Elegant elevation */
+[data-theme="elegant"] .card,
+[data-theme="elegant"] .retro-card {
+  background: var(--background-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-8);
+  transition: all var(--transition-base);
+}
+
+[data-theme="elegant"] .card:hover,
+[data-theme="elegant"] .retro-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}

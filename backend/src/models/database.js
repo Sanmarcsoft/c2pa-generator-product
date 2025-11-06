@@ -3,13 +3,34 @@ const path = require('path');
 const fs = require('fs');
 const logger = require('../utils/logger');
 
-// Use absolute path to ensure data persists in Docker volume
-const DB_PATH = process.env.DATABASE_PATH || path.join('/app', 'data', 'app.db');
+// Determine database path based on environment
+let DB_PATH;
+if (process.env.DATABASE_PATH) {
+  // Explicit path provided
+  DB_PATH = process.env.DATABASE_PATH;
+} else if (process.env.NODE_ENV === 'test') {
+  // Use in-memory or test database for testing
+  DB_PATH = process.env.TEST_DB_PATH || ':memory:';
+} else {
+  // Use Docker volume path for production
+  DB_PATH = path.join('/app', 'data', 'app.db');
+}
 
-// Ensure data directory exists
-const dataDir = path.dirname(DB_PATH);
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
+// Ensure data directory exists (skip for in-memory databases)
+if (DB_PATH !== ':memory:') {
+  const dataDir = path.dirname(DB_PATH);
+  if (!fs.existsSync(dataDir)) {
+    try {
+      fs.mkdirSync(dataDir, { recursive: true });
+    } catch (err) {
+      // If we can't create /app/data, fall back to temp directory for testing
+      if (!process.env.DATABASE_PATH && !process.env.TEST_DB_PATH) {
+        const tmpDir = path.join(process.cwd(), 'data', 'test');
+        DB_PATH = path.join(tmpDir, 'app.db');
+        fs.mkdirSync(tmpDir, { recursive: true });
+      }
+    }
+  }
 }
 
 // Create database connection
@@ -17,7 +38,7 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
   if (err) {
     logger.error('Error opening database', err);
   } else {
-    logger.info('Connected to SQLite database');
+    logger.info(`Connected to SQLite database at ${DB_PATH}`);
     // Enable foreign key constraints
     db.run('PRAGMA foreign_keys = ON');
   }
@@ -274,6 +295,35 @@ async function initDatabase() {
       logger.info('Migrating github_repos table: adding description column');
       await runAsync('ALTER TABLE github_repos ADD COLUMN description TEXT');
       logger.info('Added description column to github_repos');
+    }
+
+    // Migration: Add theme and theme_mode columns to users table if they don't exist
+    logger.info('Checking users table schema for theme columns...');
+    const usersTableInfo = await allAsync('PRAGMA table_info(users)');
+    const hasTheme = usersTableInfo.some(col => col.name === 'theme');
+    const hasThemeMode = usersTableInfo.some(col => col.name === 'theme_mode');
+
+    if (!hasTheme) {
+      logger.info('Migrating users table: adding theme column');
+      await runAsync("ALTER TABLE users ADD COLUMN theme TEXT DEFAULT 'tech-savvy-trustworthy'");
+      logger.info('Added theme column to users');
+    }
+
+    if (!hasThemeMode) {
+      logger.info('Migrating users table: adding theme_mode column');
+      await runAsync("ALTER TABLE users ADD COLUMN theme_mode TEXT DEFAULT 'system'");
+      logger.info('Added theme_mode column to users');
+    }
+
+    // Migration: Add user_id column to documents table if it doesn't exist
+    logger.info('Checking documents table schema for user_id column...');
+    const documentsTableInfo = await allAsync('PRAGMA table_info(documents)');
+    const documentsHasUserId = documentsTableInfo.some(col => col.name === 'user_id');
+
+    if (!documentsHasUserId) {
+      logger.info('Migrating documents table: adding user_id column');
+      await runAsync('ALTER TABLE documents ADD COLUMN user_id TEXT');
+      logger.info('Added user_id column to documents');
     }
 
     // Application settings table (for onboarding and configuration)

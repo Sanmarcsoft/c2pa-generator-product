@@ -1,0 +1,189 @@
+/**
+ * Retro 8-Bit Atari Theme
+ *
+ * Classic 8-bit Atari aesthetic with neon colors and vector graphics.
+ * This is the default theme.
+ * CSS custom properties for theme implementation.
+ */
+
+[data-theme="retro"] {
+  /* Atari Vector Graphics Color Palette */
+  --neon-green: #00FF00;
+  --neon-cyan: #00FFFF;
+  --neon-magenta: #FF00FF;
+  --neon-yellow: #FFFF00;
+  --neon-orange: #FF8800;
+  --background-black: #000000;
+  --dark-gray: #1a1a1a;
+  --medium-gray: #333333;
+
+  /* Color aliases for consistency */
+  --cyan: #00FFFF;
+  --magenta: #FF00FF;
+  --green: #00FF00;
+
+  /* Semantic Colors */
+  --background-primary: #000000;
+  --background-secondary: #1a1a1a;
+  --background-tertiary: #333333;
+  --text-primary: #00FF00;
+  --text-secondary: #00FFFF;
+  --text-tertiary: #888888;
+  --border-color: #00FF00;
+
+  /* Accent Colors */
+  --accent-blue: #00FFFF;
+  --accent-green: #00FF00;
+  --accent-yellow: #FFFF00;
+  --accent-red: #FF0000;
+  --accent-orange: #FF8800;
+  --accent-purple: #FF00FF;
+
+  /* Typography */
+  --font-primary: 'Press Start 2P', monospace;
+  --font-fallback: 'Courier New', monospace;
+  --font-code: 'Courier New', monospace;
+
+  --text-display: 2rem;
+  --text-h1: 2rem;
+  --text-h2: 1.5rem;
+  --text-h3: 1.2rem;
+  --text-h4: 1rem;
+  --text-h5: 0.875rem;
+  --text-base: 0.875rem;
+  --text-sm: 0.75rem;
+  --text-xs: 0.625rem;
+
+  --weight-regular: 400;
+  --weight-bold: 700;
+
+  --leading-tight: 1.4;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.8;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* For compatibility with existing code */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+
+  /* Borders */
+  --border-width: 2px;
+  --radius-sm: 0;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
+  --radius-2xl: 4px;
+  --radius-full: 0;
+
+  /* Shadows (Glow effects) */
+  --shadow-sm: 0 0 10px rgba(0, 255, 0, 0.5);
+  --shadow-md: 0 0 10px rgba(0, 255, 0, 0.5), 0 0 20px rgba(0, 255, 0, 0.5);
+  --shadow-lg: 0 0 10px rgba(0, 255, 0, 0.7), 0 0 20px rgba(0, 255, 0, 0.7), 0 0 30px rgba(0, 255, 0, 0.5);
+
+  --box-shadow-sm: 0 0 10px rgba(0, 255, 0, 0.5);
+  --box-shadow-md: 0 0 10px rgba(0, 255, 0, 0.5), 0 0 20px rgba(0, 255, 0, 0.5);
+  --box-shadow-lg: 0 0 10px rgba(0, 255, 0, 0.7), 0 0 20px rgba(0, 255, 0, 0.7), 0 0 30px rgba(0, 255, 0, 0.5);
+
+  /* Glow effects */
+  --glow-green: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+  --glow-cyan: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+  --glow-magenta: 0 0 10px var(--neon-magenta), 0 0 20px var(--neon-magenta);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* Easing */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Apply retro theme styles to body */
+[data-theme="retro"] body,
+body.theme-retro {
+  font-family: var(--font-primary), var(--font-fallback);
+  background-color: var(--background-black);
+  color: var(--neon-green);
+}
+
+/* Retro theme specific overrides for common elements */
+[data-theme="retro"] h1,
+body.theme-retro h1 {
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+[data-theme="retro"] h2,
+body.theme-retro h2 {
+  color: var(--neon-green);
+  text-shadow: var(--glow-green);
+}
+
+[data-theme="retro"] h3,
+body.theme-retro h3 {
+  color: var(--neon-magenta);
+  text-shadow: var(--glow-magenta);
+}
+
+[data-theme="retro"] a,
+body.theme-retro a {
+  color: var(--neon-cyan);
+}
+
+[data-theme="retro"] a:hover,
+body.theme-retro a:hover {
+  color: var(--neon-yellow);
+  text-shadow: var(--glow-cyan);
+}
+
+[data-theme="retro"] button,
+body.theme-retro button {
+  border: var(--border-width) solid var(--neon-green);
+  color: var(--neon-green);
+  background: transparent;
+}
+
+[data-theme="retro"] button:hover,
+body.theme-retro button:hover {
+  background: var(--neon-green);
+  color: var(--background-black);
+  box-shadow: var(--glow-green);
+}
+
+/* Scrollbar for retro theme */
+[data-theme="retro"] ::-webkit-scrollbar-thumb,
+body.theme-retro ::-webkit-scrollbar-thumb {
+  background: var(--neon-green);
+  border: 2px solid var(--background-black);
+}
+
+[data-theme="retro"] ::-webkit-scrollbar-thumb:hover,
+body.theme-retro ::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+/* Selection for retro theme */
+[data-theme="retro"] ::selection,
+body.theme-retro ::selection {
+  background: var(--neon-green);
+  color: var(--background-black);
+}

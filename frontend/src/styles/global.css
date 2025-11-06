@@ -5,6 +5,43 @@
 }
 
 :root {
+  /* Global Spacing - Used across all themes */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+
+  /* Global Transitions - Used across all themes */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* Trusteddit Brand Wordmark Colors */
+  --trusteddit-blue: #3C83F6;
+  --trusteddit-orange: #FF4500;
+}
+
+/* Default body styles - Professional typography */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Trusteddit Wordmark Utility Classes */
+.trusteddit-blue {
+  color: var(--trusteddit-blue);
+}
+
+.trusteddit-orange {
+  color: var(--trusteddit-orange);
+}
+
+/* Retro Theme Variables */
+[data-theme="retro"] {
   /* Atari Vector Graphics Color Palette */
   --neon-green: #00FF00;
   --neon-cyan: #00FFFF;
@@ -20,30 +57,19 @@
   --magenta: #FF00FF;
   --green: #00FF00;
 
-  /* Text colors */
-  --text-primary: #00FF00;    /* Neon green - primary text */
-  --text-secondary: #00FFFF;  /* Cyan - secondary text */
-  --text-muted: #888888;      /* Gray - muted text with good contrast */
+  /* Semantic colors */
+  --text-primary: #00FF00;
+  --text-secondary: #00FFFF;
+  --text-muted: #888888;
+  --background-primary: #000000;
 
   /* Typography */
   --font-primary: 'Press Start 2P', monospace;
   --font-fallback: 'Courier New', monospace;
 
-  /* Spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 3rem;
-
   /* Borders */
   --border-width: 2px;
   --border-radius: 4px;
-
-  /* Animations */
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow: 0.5s ease;
 
   /* Glow effects */
   --glow-green: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
@@ -51,7 +77,8 @@
   --glow-magenta: 0 0 10px var(--neon-magenta), 0 0 20px var(--neon-magenta);
 }
 
-body {
+/* Default/Retro theme body styles */
+[data-theme="retro"] body {
   font-family: var(--font-primary), var(--font-fallback);
   background-color: var(--background-black);
   color: var(--neon-green);
@@ -59,30 +86,35 @@ body {
   overflow-x: hidden;
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
+/* Scrollbar styling - Retro theme only */
+[data-theme="retro"] ::-webkit-scrollbar {
   width: 12px;
   background: var(--dark-gray);
 }
 
-::-webkit-scrollbar-thumb {
+[data-theme="retro"] ::-webkit-scrollbar-thumb {
   background: var(--neon-green);
   border: 2px solid var(--background-black);
 }
 
-::-webkit-scrollbar-thumb:hover {
+[data-theme="retro"] ::-webkit-scrollbar-thumb:hover {
   background: var(--neon-cyan);
   box-shadow: var(--glow-cyan);
 }
 
-/* Selection styling */
-::selection {
+/* Selection styling - Retro theme only */
+[data-theme="retro"] ::selection {
   background: var(--neon-green);
   color: var(--background-black);
 }
 
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
+/* Typography - Retro theme only */
+[data-theme="retro"] h1,
+[data-theme="retro"] h2,
+[data-theme="retro"] h3,
+[data-theme="retro"] h4,
+[data-theme="retro"] h5,
+[data-theme="retro"] h6 {
   font-family: var(--font-primary);
   font-weight: normal;
   line-height: 1.4;
@@ -90,42 +122,42 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--spacing-md);
 }
 
-h1 {
+[data-theme="retro"] h1 {
   font-size: 2rem;
   color: var(--neon-cyan);
   text-shadow: var(--glow-cyan);
 }
 
-h2 {
+[data-theme="retro"] h2 {
   font-size: 1.5rem;
   color: var(--neon-green);
 }
 
-h3 {
+[data-theme="retro"] h3 {
   font-size: 1.2rem;
   color: var(--neon-magenta);
   text-shadow: var(--glow-magenta);
 }
 
-p {
+[data-theme="retro"] p {
   font-size: 0.875rem;
   line-height: 1.8;
   margin-bottom: var(--spacing-sm);
 }
 
-a {
+[data-theme="retro"] a {
   color: var(--neon-cyan);
   text-decoration: none;
   transition: var(--transition-fast);
 }
 
-a:hover {
+[data-theme="retro"] a:hover {
   color: var(--neon-yellow);
   text-shadow: var(--glow-cyan);
 }
 
-/* Button styling */
-button {
+/* Button styling - Retro theme only */
+[data-theme="retro"] button {
   font-family: var(--font-primary);
   font-size: 0.75rem;
   padding: var(--spacing-sm) var(--spacing-md);
@@ -138,44 +170,46 @@ button {
   position: relative;
 }
 
-button:hover {
+[data-theme="retro"] button:hover {
   background: var(--neon-green);
   color: var(--background-black);
   box-shadow: var(--glow-green);
   transform: translateY(-2px);
 }
 
-button:active {
+[data-theme="retro"] button:active {
   transform: translateY(0);
 }
 
-button:disabled {
+[data-theme="retro"] button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-button.primary {
+[data-theme="retro"] button.primary {
   border-color: var(--neon-cyan);
   color: var(--neon-cyan);
 }
 
-button.primary:hover {
+[data-theme="retro"] button.primary:hover {
   background: var(--neon-cyan);
   box-shadow: var(--glow-cyan);
 }
 
-button.danger {
+[data-theme="retro"] button.danger {
   border-color: var(--neon-magenta);
   color: var(--neon-magenta);
 }
 
-button.danger:hover {
+[data-theme="retro"] button.danger:hover {
   background: var(--neon-magenta);
   box-shadow: var(--glow-magenta);
 }
 
-/* Input styling */
-input, textarea, select {
+/* Input styling - Retro theme only */
+[data-theme="retro"] input,
+[data-theme="retro"] textarea,
+[data-theme="retro"] select {
   font-family: var(--font-fallback);
   font-size: 0.875rem;
   padding: var(--spacing-sm);
@@ -185,14 +219,17 @@ input, textarea, select {
   transition: var(--transition-fast);
 }
 
-input:focus, textarea:focus, select:focus {
+[data-theme="retro"] input:focus,
+[data-theme="retro"] textarea:focus,
+[data-theme="retro"] select:focus {
   outline: none;
   border-color: var(--neon-cyan);
   box-shadow: var(--glow-cyan);
 }
 
-input::placeholder, textarea::placeholder {
-  color: #888888; /* Medium gray with better contrast on dark backgrounds */
+[data-theme="retro"] input::placeholder,
+[data-theme="retro"] textarea::placeholder {
+  color: #888888;
   opacity: 0.7;
 }
 

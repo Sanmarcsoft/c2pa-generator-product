@@ -29,12 +29,15 @@ function HomePage() {
           </svg>
         </div>
 
-        <h1 className="hero-title">WELCOME TO C2PA GENERATOR</h1>
-        <h2 className="hero-subtitle text-cyan">CERTIFICATION ASSISTANT</h2>
+        <h1 className="hero-title">WELCOME TO <span className="trusteddit-blue">TRUSTEDD</span><span className="trusteddit-orange">IT</span></h1>
+        <h2 className="hero-subtitle text-cyan">C2PA CERTIFICATION PLATFORM</h2>
 
         <p className="hero-text">
-          Your 8-bit AI companion for navigating the C2PA Generator Product certification process.
-          Let's level up your content provenance game!
+          Your trusted companion for navigating the C2PA certification process.
+          Empowering content creators with verifiable digital provenance.
+        </p>
+        <p className="hero-badge">
+          <strong>By SanMarcSoft LLC</strong> · Member of Content Authenticity Initiative
         </p>
 
         <div className="hero-actions">
@@ -48,21 +51,21 @@ function HomePage() {
       </section>
 
       <section className="features-section">
-        <h2 className="section-title">FEATURES</h2>
+        <h2 className="section-title">PLATFORM FEATURES</h2>
 
         <div className="features-grid">
           <div className="feature-card retro-card">
-            <h3>🎮 AI ASSISTANT</h3>
+            <h3>🤖 AI ASSISTANT</h3>
             <p>
-              Interactive AI guide with retro personality that helps you through every step
-              of the certification process.
+              Intelligent guide that helps you through every step
+              of the C2PA certification process.
             </p>
           </div>
 
           <div className="feature-card retro-card">
             <h3>📄 DOCUMENT MANAGEMENT</h3>
             <p>
-              Upload, review, annotate, and download all certification documents in one place.
+              Upload, review, annotate, and download all certification documents in one secure place.
             </p>
           </div>
 
@@ -76,21 +79,21 @@ function HomePage() {
           <div className="feature-card retro-card">
             <h3>✅ CHECKLIST SYSTEM</h3>
             <p>
-              Interactive task lists to ensure you complete all requirements.
+              Interactive task lists to ensure you complete all requirements systematically.
             </p>
           </div>
 
           <div className="feature-card retro-card">
-            <h3>🎯 PHASE-BY-PHASE</h3>
+            <h3>🎯 PHASE-BY-PHASE GUIDANCE</h3>
             <p>
               6 structured phases from introduction to certification maintenance.
             </p>
           </div>
 
           <div className="feature-card retro-card">
-            <h3>🔒 SECURE</h3>
+            <h3>🔒 ENTERPRISE SECURITY</h3>
             <p>
-              All your data stored securely with local-first architecture.
+              All your data stored securely with enterprise-grade encryption and local-first architecture.
             </p>
           </div>
         </div>

@@ -1,0 +1,372 @@
+/**
+ * ThemeSwitcher Component Styles
+ *
+ * Styles adapt to current theme using CSS custom properties
+ */
+
+/* Base Theme Switcher */
+.theme-switcher {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Variant */
+.theme-switcher-dropdown {
+  min-width: 240px;
+}
+
+.theme-switcher-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--background-secondary, #f5f5f5);
+  border: 2px solid var(--border-color, #e0e0e0);
+  border-radius: var(--radius-md, 0.375rem);
+  color: var(--text-primary, #000);
+  font-family: var(--font-primary, sans-serif);
+  font-size: var(--text-sm, 0.875rem);
+  cursor: pointer;
+  transition: all var(--transition-normal, 0.2s);
+  width: 100%;
+  text-align: left;
+}
+
+.theme-switcher-button:hover {
+  background: var(--background-tertiary, #ececec);
+  border-color: var(--accent-blue, #3B82F6);
+  box-shadow: var(--box-shadow-sm, 0 1px 3px rgba(0,0,0,0.1));
+}
+
+.theme-switcher-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.theme-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.theme-label {
+  flex: 1;
+  font-weight: var(--weight-medium, 500);
+}
+
+.theme-chevron {
+  font-size: 0.75rem;
+  transition: transform var(--transition-fast, 0.15s);
+  color: var(--text-tertiary, #999);
+}
+
+.theme-chevron.open {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.theme-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  background: var(--background-primary, #fff);
+  border: 2px solid var(--border-color, #e0e0e0);
+  border-radius: var(--radius-md, 0.375rem);
+  box-shadow: var(--box-shadow-lg, 0 10px 25px rgba(0,0,0,0.1));
+  z-index: 1000;
+  overflow: hidden;
+  animation: dropdownSlide 0.2s ease-out;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  color: var(--text-primary, #000);
+  font-family: var(--font-primary, sans-serif);
+  font-size: var(--text-sm, 0.875rem);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all var(--transition-fast, 0.15s);
+}
+
+.theme-option:last-child {
+  border-bottom: none;
+}
+
+.theme-option:hover {
+  background: var(--background-secondary, #f5f5f5);
+}
+
+.theme-option.active {
+  background: var(--background-tertiary, #ececec);
+  font-weight: var(--weight-semibold, 600);
+}
+
+.theme-option-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.theme-option-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.theme-option-name {
+  font-weight: var(--weight-medium, 500);
+  margin-bottom: 0.25rem;
+}
+
+.theme-option-description {
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--text-tertiary, #999);
+  line-height: 1.4;
+}
+
+.theme-preview {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.theme-preview-color {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 1px solid var(--border-color, #e0e0e0);
+}
+
+.theme-active-indicator {
+  margin-left: 0.5rem;
+  color: var(--accent-green, #10B981);
+  font-weight: bold;
+}
+
+/* Button Group Variant */
+.theme-switcher-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.theme-buttons-label {
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: var(--weight-semibold, 600);
+  color: var(--text-secondary, #666);
+}
+
+.theme-buttons-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.theme-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--background-secondary, #f5f5f5);
+  border: 2px solid var(--border-color, #e0e0e0);
+  border-radius: var(--radius-lg, 0.5rem);
+  color: var(--text-primary, #000);
+  font-family: var(--font-primary, sans-serif);
+  font-size: var(--text-sm, 0.875rem);
+  cursor: pointer;
+  transition: all var(--transition-normal, 0.2s);
+}
+
+.theme-button:hover {
+  background: var(--background-tertiary, #ececec);
+  border-color: var(--accent-blue, #3B82F6);
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow-md, 0 4px 12px rgba(0,0,0,0.1));
+}
+
+.theme-button.active {
+  background: var(--accent-blue, #3B82F6);
+  color: var(--text-on-color, #fff);
+  border-color: var(--accent-blue, #3B82F6);
+  box-shadow: var(--box-shadow-md, 0 4px 12px rgba(59, 130, 246, 0.3));
+}
+
+.theme-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.theme-button-icon {
+  font-size: 2rem;
+}
+
+.theme-button-label {
+  font-weight: var(--weight-medium, 500);
+  text-align: center;
+}
+
+/* Compact Variant */
+.theme-switcher-compact {
+  position: relative;
+}
+
+.theme-switcher-compact-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  background: var(--background-secondary, #f5f5f5);
+  border: 2px solid var(--border-color, #e0e0e0);
+  border-radius: var(--radius-full, 9999px);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all var(--transition-normal, 0.2s);
+}
+
+.theme-switcher-compact-button:hover {
+  background: var(--background-tertiary, #ececec);
+  border-color: var(--accent-blue, #3B82F6);
+  transform: scale(1.1);
+  box-shadow: var(--box-shadow-sm, 0 2px 8px rgba(0,0,0,0.1));
+}
+
+.theme-switcher-compact-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.theme-dropdown-compact {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--background-primary, #fff);
+  border: 2px solid var(--border-color, #e0e0e0);
+  border-radius: var(--radius-lg, 0.5rem);
+  box-shadow: var(--box-shadow-lg, 0 10px 25px rgba(0,0,0,0.1));
+  padding: 0.5rem;
+  z-index: 1000;
+  animation: dropdownSlide 0.2s ease-out;
+}
+
+.theme-option-compact {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: var(--background-secondary, #f5f5f5);
+  border: 2px solid var(--border-color, #e0e0e0);
+  border-radius: var(--radius-md, 0.375rem);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.15s);
+}
+
+.theme-option-compact:hover {
+  background: var(--background-tertiary, #ececec);
+  border-color: var(--accent-blue, #3B82F6);
+  transform: scale(1.05);
+}
+
+.theme-option-compact.active {
+  background: var(--accent-blue, #3B82F6);
+  border-color: var(--accent-blue, #3B82F6);
+  color: var(--text-on-color, #fff);
+}
+
+.theme-active-badge {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  background: var(--accent-green, #10B981);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.625rem;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .theme-buttons-group {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-dropdown {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+}
+
+/* Retro Theme Overrides */
+[data-theme="retro"] .theme-switcher-button,
+body.theme-retro .theme-switcher-button {
+  border: 2px solid var(--neon-green, #00FF00);
+  background: transparent;
+  color: var(--neon-green, #00FF00);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.75rem;
+}
+
+[data-theme="retro"] .theme-switcher-button:hover,
+body.theme-retro .theme-switcher-button:hover {
+  background: var(--neon-green, #00FF00);
+  color: var(--background-black, #000);
+  box-shadow: var(--glow-green, 0 0 20px #00FF00);
+}
+
+[data-theme="retro"] .theme-dropdown,
+body.theme-retro .theme-dropdown {
+  background: var(--background-black, #000);
+  border: 2px solid var(--neon-cyan, #00FFFF);
+  box-shadow: var(--glow-cyan, 0 0 20px #00FFFF);
+}
+
+[data-theme="retro"] .theme-option,
+body.theme-retro .theme-option {
+  color: var(--neon-green, #00FF00);
+  border-bottom: 1px solid var(--neon-green, #00FF00);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.625rem;
+}
+
+[data-theme="retro"] .theme-option:hover,
+body.theme-retro .theme-option:hover {
+  background: rgba(0, 255, 0, 0.1);
+}
+
+[data-theme="retro"] .theme-option.active,
+body.theme-retro .theme-option.active {
+  background: rgba(0, 255, 255, 0.2);
+  color: var(--neon-cyan, #00FFFF);
+}

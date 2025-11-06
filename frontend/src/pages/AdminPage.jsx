@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { Link } from 'react-router-dom';
 import './AdminPage.css';
 
 const AdminPage = () => {
@@ -589,8 +590,13 @@ const AdminPage = () => {
       )}
 
       <div className="admin-header">
-        <h1 className="pixel-text">⚙️ Admin Control Panel</h1>
-        <p className="subtitle">Configure AI providers, GitHub integration, and system settings</p>
+        <div>
+          <h1 className="pixel-text">⚙️ Admin Control Panel</h1>
+          <p className="subtitle">Configure AI providers, GitHub integration, and system settings</p>
+        </div>
+        <Link to="/admin/guide" className="admin-guide-link">
+          📖 Admin Guide
+        </Link>
       </div>
 
       {/* System Statistics */}
@@ -1045,8 +1051,10 @@ const AdminPage = () => {
 
           <h3>Need Help?</h3>
           <p>
-            See the <a href="https://docs.openwebui.com/" target="_blank" rel="noopener noreferrer">OpenWebUI docs</a> or
-            check <code>ADMIN_SETUP.md</code> in the project root.
+            See the <Link to="/admin/guide" className="inline-link">Admin Guide</Link> for detailed
+            information on theme management, troubleshooting, and user support. You can also check the{' '}
+            <a href="https://docs.openwebui.com/" target="_blank" rel="noopener noreferrer">OpenWebUI docs</a> or
+            review <code>ADMIN_SETUP.md</code> in the project root.
           </p>
         </div>
       </div>

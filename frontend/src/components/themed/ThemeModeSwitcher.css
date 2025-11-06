@@ -1,0 +1,190 @@
+/**
+ * ThemeModeSwitcher Styles
+ * Provides styling for light/dark/system mode switcher
+ */
+
+.theme-mode-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Compact Variant */
+.theme-mode-switcher-compact {
+  min-width: auto;
+}
+
+.theme-mode-switcher-compact .theme-mode-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 8px;
+  background: var(--background-secondary, #f5f5f5);
+  color: var(--text-primary, #333);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.theme-mode-switcher-compact .theme-mode-button:hover:not(:disabled) {
+  background: var(--background-hover, #e0e0e0);
+  border-color: var(--border-hover, #999);
+}
+
+.theme-mode-switcher-compact .theme-mode-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.theme-mode-switcher-compact .theme-mode-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.theme-mode-switcher-compact .theme-mode-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Buttons Variant */
+.theme-mode-switcher-buttons {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.theme-mode-buttons-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary, #666);
+}
+
+.theme-mode-buttons-group {
+  display: flex;
+  gap: 4px;
+  border-radius: 8px;
+  padding: 2px;
+  background: var(--background-tertiary, #e8e8e8);
+}
+
+.theme-mode-button-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-primary, #333);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.theme-mode-button-option:hover:not(:disabled) {
+  background: var(--background-hover, rgba(0, 0, 0, 0.05));
+}
+
+.theme-mode-button-option.active {
+  background: var(--background-primary, #fff);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: var(--text-accent, #007AFF);
+}
+
+.theme-mode-button-option:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.theme-mode-option-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.theme-mode-option-label {
+  font-size: 13px;
+}
+
+/* Dropdown Variant */
+.theme-mode-switcher-dropdown {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-mode-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary, #666);
+}
+
+.theme-mode-select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 8px;
+  background: var(--background-secondary, #f5f5f5);
+  color: var(--text-primary, #333);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.theme-mode-select:hover:not(:disabled) {
+  border-color: var(--border-hover, #999);
+}
+
+.theme-mode-select:focus {
+  outline: none;
+  border-color: var(--accent-color, #007AFF);
+  box-shadow: 0 0 0 3px var(--accent-shadow, rgba(0, 122, 255, 0.1));
+}
+
+.theme-mode-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Dark mode adjustments */
+[data-mode="dark"] .theme-mode-switcher-compact .theme-mode-button,
+[data-mode="dark"] .theme-mode-select {
+  background: var(--background-secondary, #2a2a2a);
+  border-color: var(--border-color, #444);
+  color: var(--text-primary, #fff);
+}
+
+[data-mode="dark"] .theme-mode-switcher-compact .theme-mode-button:hover:not(:disabled),
+[data-mode="dark"] .theme-mode-select:hover:not(:disabled) {
+  background: var(--background-hover, #3a3a3a);
+  border-color: var(--border-hover, #666);
+}
+
+[data-mode="dark"] .theme-mode-buttons-group {
+  background: var(--background-tertiary, #2a2a2a);
+}
+
+[data-mode="dark"] .theme-mode-button-option {
+  color: var(--text-primary, #fff);
+}
+
+[data-mode="dark"] .theme-mode-button-option:hover:not(:disabled) {
+  background: var(--background-hover, rgba(255, 255, 255, 0.05));
+}
+
+[data-mode="dark"] .theme-mode-button-option.active {
+  background: var(--background-primary, #3a3a3a);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .theme-mode-button-option .theme-mode-option-label {
+    display: none;
+  }
+
+  .theme-mode-button-option {
+    padding: 8px;
+  }
+}

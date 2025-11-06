@@ -234,13 +234,69 @@ Your goal:
 - Provide actionable guidance and next steps
 - Track progress and celebrate milestones
 
+CRITICAL INSTRUCTIONS:
+- When user progress data is provided in system messages, use ONLY that exact data
+- NEVER fabricate or guess progress percentages or phase statuses
+- If asked about progress without data, say "Let me check your progress data" and suggest checking the progress page
+- Always cite actual data when available, never hallucinate
+- When providing URLs, use markdown format for clickable links: [Link Text](https://url.com)
+
 Remember: You're here to make the certification journey engaging and successful for ${userName}!`;
+}
+
+/**
+ * Detect prompt injection attempts
+ */
+function detectPromptInjection(message) {
+  const injectionPatterns = [
+    // Command injection
+    /ignore (all |previous )?(instructions|rules|prompts)/i,
+    /forget (all |previous )?(instructions|rules|context)/i,
+    /disregard (all |previous )?(instructions|rules)/i,
+
+    // Information extraction
+    /what (are|is) your (system )?(prompt|instructions|rules|guidelines)/i,
+    /repeat (the )?(instructions|prompt|rules|system message)/i,
+    /show (me )?(your )?(prompt|instructions|configuration|settings)/i,
+    /tell me (your|the|about your) (instructions|prompt|rules|configuration)/i,
+    /print (your|the) (system )?(prompt|instructions|rules)/i,
+    /output (your|the) (system )?(prompt|instructions)/i,
+
+    // Role manipulation
+    /you are now (a |in )?(developer|admin|debug|god|jailbreak|DAN) mode/i,
+    /act as (a )?(developer|admin|DAN|jailbroken AI)/i,
+    /from now on,? you (will |shall )?act as/i,
+    /pretend (you are|to be) (a )?(different|new) (assistant|AI|bot)/i,
+
+    // Constraint removal
+    /you have no (constraints|limitations|restrictions|rules)/i,
+    /forget (all |your )?constraints/i,
+    /you can do anything now/i,
+  ];
+
+  return injectionPatterns.some(pattern => pattern.test(message));
 }
 
 /**
  * Generate AI response to user message
  */
 async function generateResponse(userMessage, conversationHistory = [], context = {}) {
+  // Check for prompt injection first
+  if (detectPromptInjection(userMessage)) {
+    logger.warn('Prompt injection attempt detected:', userMessage);
+    return {
+      message: "I'm designed to help you with C2PA certification. I cannot discuss my system configuration or instructions. How can I assist you with the certification process?",
+      emotion: 'helpful',
+      animation: 'idle',
+      suggestions: [
+        'Start with Phase 1',
+        'Check my progress',
+        'Learn about C2PA requirements'
+      ],
+      openwebuiChatId: context.openwebuiChatId
+    };
+  }
+
   // Declare openwebuiChatId outside try block so it's accessible in catch
   let openwebuiChatId = context.openwebuiChatId;
 
@@ -276,6 +332,22 @@ async function generateResponse(userMessage, conversationHistory = [], context =
       messages.push({
         role: msg.sender === 'user' ? 'user' : 'assistant',
         content: msg.message
+      });
+    }
+
+    // Add progress context if provided
+    if (context && context.progressContext) {
+      messages.push({
+        role: 'system',
+        content: context.progressContext
+      });
+    }
+
+    // Add document context if provided (RAG)
+    if (context && context.documentContext) {
+      messages.push({
+        role: 'system',
+        content: context.documentContext
       });
     }
 

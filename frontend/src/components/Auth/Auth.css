@@ -406,6 +406,88 @@
   line-height: 1.2;
 }
 
+/* ===== LIGHT MODE OVERRIDES ===== */
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-container {
+  background: var(--light-50);
+  border: 3px solid var(--electric-cyan);
+  box-shadow:
+    0 0 20px rgba(0, 153, 204, 0.2),
+    inset 0 0 30px rgba(0, 153, 204, 0.03);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-title {
+  color: var(--electric-cyan);
+  text-shadow: 0 0 10px rgba(0, 153, 204, 0.3);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-subtitle {
+  color: var(--electric-teal);
+  text-shadow: none;
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-label {
+  color: var(--text-secondary);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-input {
+  background: var(--light-100);
+  border: 2px solid var(--border-medium);
+  color: var(--text-primary);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-input:focus {
+  border-color: var(--electric-cyan);
+  box-shadow: 0 0 16px rgba(0, 153, 204, 0.3);
+  background: var(--light-50);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-button {
+  border-color: var(--electric-cyan);
+  color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-button::before {
+  background: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-button:hover {
+  color: var(--light-50);
+  box-shadow: 0 0 16px rgba(0, 153, 204, 0.4);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-button.primary {
+  border-color: var(--electric-cyan);
+  color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-link {
+  color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-link:hover {
+  color: var(--electric-cyan-light);
+  text-shadow: 0 0 10px rgba(0, 153, 204, 0.3);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-footer {
+  border-top-color: var(--border-medium);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-link-text {
+  color: var(--text-secondary);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-error {
+  color: #CC0066;
+  text-shadow: 0 0 5px rgba(204, 0, 102, 0.3);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .auth-error-banner {
+  background: rgba(204, 0, 102, 0.1);
+  border-color: #CC0066;
+  color: #CC0066;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .auth-container {

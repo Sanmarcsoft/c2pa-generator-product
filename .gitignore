@@ -97,15 +97,3 @@ Thumbs.db
 *.html
 *.txt
 
-# Exclude large directories
-github_repos/
-Figma_Project_Export/
-C2PA_Example_FIles/
-ANGLE2_PRESO/
-Skywatcher_Videos/
-Dan\ Haug_Farm_Perhaps/
-Engima+ORNL/
-Crop\ circles*/
-Buzzard-Android/
-Buzzard-iOS/
-Etsy/

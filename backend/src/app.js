@@ -11,6 +11,7 @@ const DatabaseIntegrityChecker = require('./utils/dbIntegrity');
 
 // Import routes
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 const documentRoutes = require('./routes/documents');
 const chatRoutes = require('./routes/chat');
 const sessionsRoutes = require('./routes/sessions');
@@ -22,6 +23,7 @@ const phase1Routes = require('./routes/phase1');
 const adventureRoutes = require('./routes/adventure');
 const adminRoutes = require('./routes/admin');
 const openaiCompatRoutes = require('./routes/openai-compat');
+const productsRoutes = require('./routes/products');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -62,6 +64,7 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/chat/sessions', sessionsRoutes);
@@ -73,6 +76,7 @@ app.use('/api/phase1', phase1Routes);
 app.use('/api/adventure', adventureRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/v1', openaiCompatRoutes);
+app.use('/api/products', productsRoutes);
 
 // Serve static frontend files (for production)
 app.use(express.static(path.join(__dirname, '../public')));

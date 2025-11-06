@@ -5,6 +5,7 @@ const { runAsync, getAsync, allAsync } = require('../models/database');
 const aiService = require('../services/aiService');
 const { getDocumentSummary } = require('../services/ragService');
 const sessionService = require('../services/sessionService');
+const ragContextService = require('../services/ragContextService');
 const logger = require('../utils/logger');
 const requireAuth = require('../middleware/requireAuth');
 
@@ -66,11 +67,64 @@ router.post('/', requireAuth, express.json(), async (req, res, next) => {
       [session.id]
     );
 
+    // Get user progress data for context
+    const { getAsync } = require('../models/database');
+    let progressContext = '';
+    try {
+      const progressData = await getAsync(
+        'SELECT * FROM progress WHERE user_id = ?',
+        [req.user.id]
+      );
+
+      if (progressData) {
+        const phases = JSON.parse(progressData.phases);
+        const completedPhases = phases.filter(p => p.status === 'completed');
+        const currentPhase = phases.find(p => p.id === progressData.current_phase);
+
+        progressContext = `
+USER PROGRESS DATA (DO NOT HALLUCINATE - USE THIS EXACT DATA):
+- Overall Completion: ${Math.round((completedPhases.length / phases.length) * 100)}%
+- Completed Phases: ${completedPhases.map(p => p.id).join(', ') || 'None'}
+- Current Phase: ${currentPhase?.id || 'phase-1'}
+- Current Phase Status: ${currentPhase?.status || 'pending'}
+- All Phase Statuses:
+${phases.map(p => `  * ${p.id}: ${p.status.toUpperCase()}`).join('\n')}
+
+When user asks about progress, cite this EXACT data. Do not make up percentages.
+`;
+      }
+    } catch (error) {
+      logger.error('Error fetching progress data:', error);
+      // Continue without progress context if there's an error
+    }
+
+    // Build document context for RAG
+    let documentContext = '';
+    let documentContextData = null;
+    try {
+      // Check if phase specified in request
+      const phaseFilter = req.body.phase ? parseInt(req.body.phase.split('-')[1]) : null;
+
+      // Build full document context
+      documentContext = await ragContextService.getFullContext(req.user.id, phaseFilter);
+
+      // Also get structured context data for response metadata
+      const userProfile = await ragContextService.getUserProfileContext(req.user.id);
+      documentContextData = await ragContextService.buildUserDocumentContext(req.user.id, phaseFilter);
+
+      logger.info(`Built document context for user ${req.user.id}${phaseFilter ? ` (phase ${phaseFilter})` : ''}: ${documentContextData.totalDocuments} documents`);
+    } catch (error) {
+      logger.error('Error building document context:', error);
+      // Continue without document context if there's an error
+    }
+
     // Generate AI response with user context for OpenWebUI session management
     const aiResponse = await aiService.generateResponse(message, history.reverse(), {
       ...context,
       user: req.user, // Pass authenticated user for OpenWebUI session
-      openwebuiChatId: existingChatId // Pass existing session if available
+      openwebuiChatId: existingChatId, // Pass existing session if available
+      progressContext: progressContext, // Add progress context
+      documentContext: documentContext // Add document context for RAG
     });
 
     // Save AI response with OpenWebUI chat_id
@@ -128,7 +182,17 @@ router.post('/', requireAuth, express.json(), async (req, res, next) => {
         animation: aiResponse.animation,
         suggestions: aiResponse.suggestions || []
       },
-      session: updatedSession
+      session: updatedSession,
+      documentContext: documentContextData ? {
+        totalDocuments: documentContextData.totalDocuments,
+        phase: documentContextData.phase,
+        documentsByPhase: documentContextData.summary.byPhase,
+        documentsByStatus: documentContextData.summary.byStatus,
+        keyInformation: documentContextData.summary.keyInformation,
+        hasContext: true
+      } : {
+        hasContext: false
+      }
     });
   } catch (error) {
     logger.error('Chat error:', error);

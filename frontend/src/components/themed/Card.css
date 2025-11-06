@@ -1,0 +1,91 @@
+/**
+ * Themed Card Styles
+ *
+ * Base styles that adapt to the current theme.
+ * Uses CSS custom properties defined by each theme.
+ */
+
+/* Base Card Styles */
+.themed-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  transition: all var(--transition-normal);
+}
+
+/* Interactive Card */
+.themed-card--interactive {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font: inherit;
+}
+
+.themed-card--interactive:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+/* Hover Effects */
+.themed-card--hover:hover {
+  transform: translateY(-2px);
+}
+
+/* Padding Variants */
+.themed-card--padding-none {
+  padding: 0;
+}
+
+.themed-card--padding-small {
+  padding: var(--space-4);
+}
+
+.themed-card--padding-medium {
+  padding: var(--space-6);
+}
+
+.themed-card--padding-large {
+  padding: var(--space-8);
+}
+
+/* Card Header */
+.themed-card__header {
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: var(--space-4);
+}
+
+.themed-card__header:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+/* Card Body */
+.themed-card__body {
+  flex: 1;
+}
+
+/* Card Footer */
+.themed-card__footer {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-color);
+  margin-top: var(--space-4);
+}
+
+.themed-card__footer:first-child {
+  padding-top: 0;
+  margin-top: 0;
+  border-top: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .themed-card--padding-large {
+    padding: var(--space-6);
+  }
+
+  .themed-card--padding-medium {
+    padding: var(--space-4);
+  }
+}

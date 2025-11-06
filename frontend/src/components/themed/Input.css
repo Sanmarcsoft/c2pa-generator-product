@@ -1,0 +1,134 @@
+/**
+ * Themed Input Styles
+ *
+ * Base styles that adapt to the current theme.
+ * Uses CSS custom properties defined by each theme.
+ */
+
+/* Input Wrapper */
+.themed-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+/* Label */
+.themed-input__label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.themed-input__required {
+  color: var(--accent-red, #EF4444);
+  font-weight: var(--weight-bold);
+}
+
+/* Base Input Styles */
+.themed-input {
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  background: var(--background-primary);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  transition: all var(--transition-normal);
+  outline: none;
+  width: 100%;
+}
+
+.themed-input::placeholder {
+  color: var(--text-tertiary);
+  opacity: 1;
+}
+
+/* Focus State */
+.themed-input:focus {
+  border-color: var(--accent-blue);
+}
+
+/* Hover State */
+.themed-input:hover:not(:disabled):not(:focus) {
+  border-color: var(--text-tertiary);
+}
+
+/* Error State */
+.themed-input--error {
+  border-color: var(--accent-red, #EF4444);
+}
+
+.themed-input--error:focus {
+  border-color: var(--accent-red, #EF4444);
+}
+
+/* Success State */
+.themed-input--success {
+  border-color: var(--accent-green, #10B981);
+}
+
+.themed-input--success:focus {
+  border-color: var(--accent-green, #10B981);
+}
+
+/* Disabled State */
+.themed-input--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--background-secondary);
+}
+
+/* Full Width */
+.themed-input--full-width {
+  width: 100%;
+}
+
+/* Textarea Specific */
+textarea.themed-input {
+  resize: vertical;
+  min-height: 80px;
+  line-height: var(--leading-normal);
+  padding: 0.75rem 1rem;
+}
+
+/* Helper Text */
+.themed-input__helper {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.themed-input__helper--error {
+  color: var(--text-tertiary);
+}
+
+/* Error Message */
+.themed-input__error {
+  font-size: var(--text-sm);
+  color: var(--accent-red, #EF4444);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.themed-input__error::before {
+  content: '⚠';
+  font-size: 1em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .themed-input {
+    font-size: var(--text-base);
+    padding: 0.875rem 1rem;
+  }
+
+  textarea.themed-input {
+    min-height: 100px;
+  }
+}

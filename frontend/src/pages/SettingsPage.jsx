@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import ThemeSwitcher from '../components/themed/ThemeSwitcher';
+import ThemeModeSwitcher from '../components/themed/ThemeModeSwitcher';
 import './SettingsPage.css';
 
 const SettingsPage = () => {
@@ -39,16 +41,6 @@ const SettingsPage = () => {
     passwordMinLength: 8,
     requireStrongPassword: true,
     enableTwoFactor: false
-  });
-
-  // Feature Flags
-  const [featureFlags, setFeatureFlags] = useState({
-    enableChat: true,
-    enableDocuments: true,
-    enableProgress: true,
-    enableGitHubIntegration: false,
-    enableAdventure: true,
-    enablePhase1: true
   });
 
   // Notification Settings
@@ -359,16 +351,6 @@ const SettingsPage = () => {
             enable_two_factor: securitySettings.enableTwoFactor
           };
           break;
-        case 'features':
-          settingsToSave = {
-            enable_chat: featureFlags.enableChat,
-            enable_documents: featureFlags.enableDocuments,
-            enable_progress: featureFlags.enableProgress,
-            github_configured: featureFlags.enableGitHubIntegration,
-            enable_adventure: featureFlags.enableAdventure,
-            enable_phase1: featureFlags.enablePhase1
-          };
-          break;
         case 'notifications':
           settingsToSave = {
             enable_email_notifications: notificationSettings.enableEmailNotifications,
@@ -461,6 +443,12 @@ const SettingsPage = () => {
           General
         </button>
         <button
+          className={`tab-button ${activeTab === 'appearance' ? 'active' : ''}`}
+          onClick={() => setActiveTab('appearance')}
+        >
+          Appearance
+        </button>
+        <button
           className={`tab-button ${activeTab === 'ai' ? 'active' : ''}`}
           onClick={() => setActiveTab('ai')}
         >
@@ -471,12 +459,6 @@ const SettingsPage = () => {
           onClick={() => setActiveTab('security')}
         >
           Security
-        </button>
-        <button
-          className={`tab-button ${activeTab === 'features' ? 'active' : ''}`}
-          onClick={() => setActiveTab('features')}
-        >
-          Features
         </button>
         <button
           className={`tab-button ${activeTab === 'notifications' ? 'active' : ''}`}
@@ -493,6 +475,52 @@ const SettingsPage = () => {
       </div>
 
       <div className="settings-content">
+        {/* Appearance Settings */}
+        {activeTab === 'appearance' && (
+          <div className="settings-section">
+            <h2>🎨 Appearance Settings</h2>
+            <p className="section-description">Customize the look and feel of your application</p>
+
+            <div className="form-group">
+              <label>Application Theme</label>
+              <p className="field-description">
+                Choose a visual theme that suits your preference. Changes apply immediately.
+              </p>
+              <ThemeSwitcher variant="buttons" showPreview={true} />
+            </div>
+
+            <div className="form-group">
+              <label>Appearance Mode</label>
+              <p className="field-description">
+                Choose between light, dark, or system-dependent appearance. System mode automatically matches your device settings.
+              </p>
+              <ThemeModeSwitcher variant="buttons" showLabel={false} />
+            </div>
+
+            <div className="theme-info">
+              <h3>About Themes</h3>
+              <ul>
+                <li>
+                  <strong>8-Bit Retro:</strong> Classic Atari-style interface with neon colors and vector graphics.
+                  Perfect for nostalgia lovers.
+                </li>
+                <li>
+                  <strong>Modern Minimalist:</strong> Clean and sophisticated with generous whitespace.
+                  Ideal for professional environments.
+                </li>
+                <li>
+                  <strong>Friendly & Approachable:</strong> Warm and inviting with soft colors and rounded shapes.
+                  Great for new users.
+                </li>
+                <li>
+                  <strong>Tech-Savvy & Trustworthy:</strong> Dark professional theme with electric accents.
+                  Designed for technical users.
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
+
         {/* General Settings */}
         {activeTab === 'general' && (
           <div className="settings-section">
@@ -815,114 +843,6 @@ const SettingsPage = () => {
               className="btn-primary"
             >
               {saving ? 'Saving...' : 'Save Security Settings'}
-            </button>
-          </div>
-        )}
-
-        {/* Feature Flags */}
-        {activeTab === 'features' && (
-          <div className="settings-section">
-            <h2>🎮 Feature Flags</h2>
-            <p className="section-description">Enable or disable application features</p>
-
-            <div className="feature-grid">
-              <div className="feature-card">
-                <div className="feature-header">
-                  <h3>💬 Chat Interface</h3>
-                  <label className="toggle">
-                    <input
-                      type="checkbox"
-                      checked={featureFlags.enableChat}
-                      onChange={(e) => setFeatureFlags({ ...featureFlags, enableChat: e.target.checked })}
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-                <p>AI-powered chat assistant for C2PA guidance</p>
-              </div>
-
-              <div className="feature-card">
-                <div className="feature-header">
-                  <h3>📄 Documents</h3>
-                  <label className="toggle">
-                    <input
-                      type="checkbox"
-                      checked={featureFlags.enableDocuments}
-                      onChange={(e) => setFeatureFlags({ ...featureFlags, enableDocuments: e.target.checked })}
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-                <p>Document upload and management features</p>
-              </div>
-
-              <div className="feature-card">
-                <div className="feature-header">
-                  <h3>📊 Progress Tracking</h3>
-                  <label className="toggle">
-                    <input
-                      type="checkbox"
-                      checked={featureFlags.enableProgress}
-                      onChange={(e) => setFeatureFlags({ ...featureFlags, enableProgress: e.target.checked })}
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-                <p>Certification progress dashboard</p>
-              </div>
-
-              <div className="feature-card">
-                <div className="feature-header">
-                  <h3>🐙 GitHub Integration</h3>
-                  <label className="toggle">
-                    <input
-                      type="checkbox"
-                      checked={featureFlags.enableGitHubIntegration}
-                      onChange={(e) => setFeatureFlags({ ...featureFlags, enableGitHubIntegration: e.target.checked })}
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-                <p>Code search and RAG features</p>
-              </div>
-
-              <div className="feature-card">
-                <div className="feature-header">
-                  <h3>🎯 Adventure Mode</h3>
-                  <label className="toggle">
-                    <input
-                      type="checkbox"
-                      checked={featureFlags.enableAdventure}
-                      onChange={(e) => setFeatureFlags({ ...featureFlags, enableAdventure: e.target.checked })}
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-                <p>Gamified certification experience</p>
-              </div>
-
-              <div className="feature-card">
-                <div className="feature-header">
-                  <h3>1️⃣ Phase 1 Module</h3>
-                  <label className="toggle">
-                    <input
-                      type="checkbox"
-                      checked={featureFlags.enablePhase1}
-                      onChange={(e) => setFeatureFlags({ ...featureFlags, enablePhase1: e.target.checked })}
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
-                </div>
-                <p>Introduction & Prerequisites phase</p>
-              </div>
-            </div>
-
-            <button
-              onClick={() => saveSettings('features')}
-              disabled={saving}
-              className="btn-primary"
-            >
-              {saving ? 'Saving...' : 'Save Feature Flags'}
             </button>
           </div>
         )}

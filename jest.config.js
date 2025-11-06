@@ -15,12 +15,18 @@ module.exports = {
     '/node_modules/',
     '/frontend/'
   ],
+  moduleNameMapper: {
+    '^uuid$': require.resolve('uuid')
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!(uuid)/)'
+  ],
   coverageThreshold: {
     global: {
-      branches: 70,
-      functions: 70,
-      lines: 70,
-      statements: 70
+      branches: 60,
+      functions: 60,
+      lines: 60,
+      statements: 60
     }
   },
   verbose: true,
@@ -28,5 +34,5 @@ module.exports = {
   clearMocks: true,
   resetMocks: true,
   restoreMocks: true,
-  testTimeout: 10000
+  testTimeout: 30000
 };

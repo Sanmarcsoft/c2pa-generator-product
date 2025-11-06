@@ -655,3 +655,282 @@ input[type="range"]::-moz-range-thumb {
     flex: 1;
   }
 }
+
+/* Theme Info Section */
+.theme-info {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--background-secondary, rgba(0, 255, 255, 0.05));
+  border: 1px solid var(--border-color, var(--cyan));
+  border-radius: var(--radius-md, 8px);
+}
+
+.theme-info h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary, var(--cyan));
+}
+
+.theme-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.theme-info li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color, rgba(0, 255, 255, 0.2));
+  line-height: 1.6;
+}
+
+.theme-info li:last-child {
+  border-bottom: none;
+}
+
+.theme-info li strong {
+  color: var(--text-primary, var(--cyan));
+  font-weight: var(--weight-semibold, 600);
+}
+
+.field-description {
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--text-secondary, #888);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+/* ===== TECH-SAVVY THEME - DARK MODE OVERRIDES ===== */
+[data-theme="tech-savvy-trustworthy"][data-mode="dark"] .tab-button {
+  border-color: var(--electric-cyan);
+  color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="dark"] .tab-button::before {
+  background: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="dark"] .tab-button:hover,
+[data-theme="tech-savvy-trustworthy"][data-mode="dark"] .tab-button.active {
+  color: #0F1628;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+}
+
+/* ===== TECH-SAVVY THEME - LIGHT MODE OVERRIDES ===== */
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .settings-header {
+  background: linear-gradient(135deg, rgba(0, 153, 204, 0.1), rgba(0, 204, 204, 0.1));
+  border-color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .settings-header h1 {
+  color: var(--electric-cyan);
+  text-shadow: 0 0 10px rgba(0, 153, 204, 0.3);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .settings-content {
+  background: #FFFFFF;
+  border-color: var(--border-medium);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .settings-section h2 {
+  color: var(--electric-cyan);
+  border-bottom-color: var(--border-medium);
+  text-shadow: none;
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .section-description {
+  color: var(--text-secondary);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-group label {
+  color: var(--text-primary);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-group input[type="text"],
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-group input[type="number"],
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-group input[type="range"],
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-group select,
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-group textarea {
+  background: var(--light-100);
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-group input:focus,
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-group select:focus,
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-group textarea:focus {
+  border-color: var(--electric-cyan);
+  box-shadow: 0 0 8px rgba(0, 153, 204, 0.3);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .form-group small {
+  color: var(--text-secondary);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .tab-button {
+  border-color: var(--electric-cyan);
+  color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .tab-button::before {
+  background: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .tab-button:hover,
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .tab-button.active {
+  color: #FFFFFF;
+  box-shadow: 0 0 12px rgba(0, 153, 204, 0.4);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .feature-card {
+  background: var(--light-50);
+  border-color: var(--border-medium);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .feature-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .feature-header h3 {
+  color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .feature-card p {
+  color: var(--text-secondary);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .action-card {
+  background: var(--light-50);
+  border-color: var(--border-medium);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .action-card.danger {
+  border-color: #DC2626;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .action-card h3 {
+  color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .action-card.danger h3 {
+  color: #DC2626;
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .action-card p {
+  color: var(--text-secondary);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .btn-primary {
+  background: var(--electric-cyan);
+  border-color: var(--electric-cyan);
+  color: #FFFFFF;
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .btn-primary:hover:not(:disabled) {
+  background: var(--electric-cyan-light);
+  border-color: var(--electric-cyan-light);
+  box-shadow: 0 0 12px rgba(0, 153, 204, 0.4);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .btn-secondary {
+  border-color: var(--electric-cyan);
+  color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .btn-secondary:hover:not(:disabled) {
+  background: rgba(0, 153, 204, 0.1);
+  box-shadow: 0 0 12px rgba(0, 153, 204, 0.3);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .btn-danger {
+  border-color: #DC2626;
+  color: #DC2626;
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .btn-danger:hover:not(:disabled) {
+  background: rgba(220, 38, 38, 0.1);
+  box-shadow: 0 0 12px rgba(220, 38, 38, 0.3);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .theme-info {
+  background: var(--light-50);
+  border-color: var(--border-medium);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .theme-info h3 {
+  color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .theme-info li {
+  border-bottom-color: var(--border-subtle);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .theme-info li strong {
+  color: var(--text-primary);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .toggle-slider {
+  background-color: var(--light-200);
+  border-color: var(--border-medium);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .toggle-slider:before {
+  background-color: var(--text-tertiary);
+  box-shadow: none;
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .toggle input:checked + .toggle-slider {
+  background-color: rgba(0, 204, 153, 0.2);
+  border-color: var(--electric-teal);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .toggle input:checked + .toggle-slider:before {
+  background-color: var(--electric-teal);
+  box-shadow: 0 0 8px rgba(0, 204, 153, 0.3);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] input[type="range"] {
+  background: var(--light-200);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] input[type="range"]::-webkit-slider-thumb {
+  background: var(--electric-cyan);
+  border-color: var(--electric-cyan);
+  box-shadow: 0 0 8px rgba(0, 153, 204, 0.3);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] input[type="range"]::-moz-range-thumb {
+  background: var(--electric-cyan);
+  border-color: var(--electric-cyan);
+  box-shadow: 0 0 8px rgba(0, 153, 204, 0.3);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .rag-repos-section {
+  border-top-color: var(--border-subtle);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .rag-repos-section h3 {
+  color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .rag-repos-section .section-description {
+  color: var(--text-secondary);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .repo-item {
+  background: var(--light-50);
+  border-color: var(--border-medium);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .repo-info a {
+  color: var(--electric-cyan);
+}
+
+[data-theme="tech-savvy-trustworthy"][data-mode="light"] .empty-repos {
+  background: var(--light-100);
+  border-color: var(--border-medium);
+  color: var(--text-tertiary);
+}
